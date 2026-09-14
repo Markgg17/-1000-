@@ -1,0 +1,5939 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>markgg — магазин, игра, фото, сказки и 1000 просмотров</title>
+
+<meta name="description"
+      content="markgg — маленькая большая вселенная с магазином, игрой, фото, сказками и праздником 1000 просмотров VK Видео.">
+
+<link rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>">
+
+<style>
+/* =========================================================
+   markgg
+   ВСЁ В ОДНОМ ФАЙЛЕ
+   HTML + CSS + JAVASCRIPT
+   ========================================================= */
+
+:root {
+    --bg: #080814;
+    --bg2: #111126;
+    --card: rgba(25, 22, 52, .88);
+    --card2: rgba(36, 28, 70, .9);
+
+    --purple: #9b5cff;
+    --pink: #ff4fd8;
+    --cyan: #27e7ff;
+    --green: #55ffb0;
+    --yellow: #ffd95a;
+    --red: #ff5577;
+
+    --text: #ffffff;
+    --muted: #aaa9c5;
+
+    --radius: 22px;
+    --shadow: 0 15px 50px rgba(0,0,0,.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at 10% 10%, rgba(155,92,255,.18), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(255,79,216,.14), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(39,231,255,.10), transparent 35%),
+        var(--bg);
+    overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   SPLASH
+   ========================================================= */
+
+#splashScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle, #24114c 0%, #080814 70%);
+}
+
+.splash-box {
+    text-align: center;
+    padding: 30px;
+}
+
+.splash-logo {
+    font-size: clamp(50px, 10vw, 100px);
+    font-weight: 1000;
+    background: linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 40px rgba(155,92,255,.4);
+}
+
+.splash-subtitle {
+    color: var(--muted);
+    margin-top: 10px;
+}
+
+#splashNumber {
+    margin-top: 30px;
+    font-size: 80px;
+    font-weight: 1000;
+    color: var(--yellow);
+    text-shadow: 0 0 30px rgba(255,217,90,.6);
+}
+
+.fade-out {
+    animation: fadeOut .7s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
+
+#confettiContainer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10000;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 14px;
+    border-radius: 3px;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    from {
+        transform: translateY(-30px) rotate(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    backdrop-filter: blur(20px);
+    background: rgba(8,8,20,.82);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: auto;
+
+    padding: 12px 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 25px;
+    font-weight: 1000;
+    white-space: nowrap;
+
+    background: linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.nav {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+}
+
+.nav::-webkit-scrollbar {
+    display: none;
+}
+
+.nav button,
+.tool-button {
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.05);
+    color: white;
+    border-radius: 14px;
+    padding: 10px 13px;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+.nav button:hover,
+.tool-button:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple);
+    box-shadow: 0 0 20px rgba(155,92,255,.25);
+}
+
+.nav button.active {
+    background: linear-gradient(90deg,var(--purple),var(--pink));
+    border-color: transparent;
+    box-shadow: 0 0 25px rgba(255,79,216,.3);
+}
+
+.header-tools {
+    display: flex;
+    gap: 6px;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px 18px 80px;
+}
+
+.page-section {
+    display: none;
+    animation: sectionIn .35s ease;
+}
+
+.page-section.active-section {
+    display: block;
+}
+
+@keyframes sectionIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-heading {
+    margin: 15px 0 22px;
+}
+
+.section-heading h1 {
+    margin: 0;
+    font-size: clamp(28px,5vw,48px);
+}
+
+.section-heading p {
+    color: var(--muted);
+}
+
+.welcome-card,
+.card,
+.admin-card,
+.quiz-card,
+.story-player,
+.postcard-controls,
+.photo-controls,
+.game-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.primary-button,
+.secondary-button,
+.danger-button,
+.small-button {
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 16px;
+    color: white;
+    transition: .2s;
+}
+
+.primary-button {
+    background: linear-gradient(90deg,var(--purple),var(--pink));
+}
+
+.secondary-button {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.1);
+}
+
+.danger-button {
+    background: linear-gradient(90deg,#ff405f,#ff174f);
+}
+
+.small-button {
+    padding: 8px 12px;
+    background: rgba(255,255,255,.08);
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.danger-button:hover,
+.small-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.welcome-card {
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.welcome-card h2 {
+    margin-top: 0;
+}
+
+/* =========================================================
+   SHOP
+   ========================================================= */
+
+.shop-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.search-box,
+.select-control,
+.control-group input,
+.control-group select,
+.postcard-controls input,
+.postcard-controls textarea,
+.admin-login-card input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    outline: none;
+    color: white;
+    background: rgba(0,0,0,.25);
+}
+
+.search-box {
+    flex: 1;
+    min-width: 230px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.search-box input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: white;
+    width: 100%;
+}
+
+.select-control {
+    width: auto;
+    min-width: 210px;
+}
+
+.shop-info-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.mini-stat {
+    padding: 10px 14px;
+    background: rgba(255,255,255,.06);
+    border-radius: 14px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+    gap: 17px;
+}
+
+.product-card {
+    position: relative;
+    padding: 20px;
+
+    background: linear-gradient(160deg,rgba(30,25,60,.95),rgba(16,16,35,.95));
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 22px;
+
+    transition: .25s;
+}
+
+.product-card:hover {
+    transform: translateY(-7px);
+    border-color: var(--purple);
+    box-shadow: 0 15px 35px rgba(155,92,255,.2);
+}
+
+.product-emoji {
+    height: 120px;
+    display: grid;
+    place-items: center;
+    font-size: 70px;
+
+    border-radius: 18px;
+    background: linear-gradient(135deg,rgba(155,92,255,.18),rgba(255,79,216,.12));
+}
+
+.product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    padding: 5px 9px;
+    border-radius: 10px;
+
+    background: var(--yellow);
+    color: #241900;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(0,0,0,.35);
+    color: white;
+    font-size: 20px;
+}
+
+.favorite-button.active {
+    color: #ff4d8d;
+}
+
+.product-name {
+    margin: 15px 0 5px;
+    font-size: 18px;
+}
+
+.product-category {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.product-bottom {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price {
+    color: var(--yellow);
+    font-size: 22px;
+    font-weight: 900;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+#mainModal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    background: rgba(0,0,0,.75);
+}
+
+#mainModal.open {
+    display: flex;
+}
+
+.modal-box {
+    width: min(650px,100%);
+    max-height: 90vh;
+    overflow: auto;
+
+    padding: 25px;
+
+    background: #15142a;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 24px;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-modal {
+    border: 0;
+    background: rgba(255,255,255,.08);
+    color: white;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin: 8px 0;
+    background: rgba(255,255,255,.05);
+    border-radius: 15px;
+}
+
+.cart-item-icon {
+    font-size: 30px;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+/* =========================================================
+   GAME
+   ========================================================= */
+
+.game-top-panel {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.game-stat {
+    padding: 10px 15px;
+    background: rgba(255,255,255,.06);
+    border-radius: 14px;
+}
+
+.character-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.character-button {
+    width: 55px;
+    height: 55px;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    background: rgba(255,255,255,.07);
+    font-size: 28px;
+}
+
+.character-button.selected {
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px rgba(39,231,255,.3);
+}
+
+.game-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: linear-gradient(#15162d,#090a16);
+}
+
+#gameCanvas {
+    width: 100%;
+    display: block;
+}
+
+.game-message {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+    font-weight: 900;
+    pointer-events: none;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.jump-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 17px;
+
+    border: 0;
+    border-radius: 18px;
+
+    background: linear-gradient(90deg,var(--cyan),var(--purple));
+    color: white;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.help-card {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.05);
+    color: var(--muted);
+}
+
+/* =========================================================
+   PHOTO
+   ========================================================= */
+
+.photo-layout {
+    display: grid;
+    grid-template-columns: 1.4fr .8fr;
+    gap: 18px;
+}
+
+.photo-preview-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 450px;
+
+    border-radius: 24px;
+    background: #05050b;
+    border: 1px solid rgba(255,255,255,.1);
+
+    display: grid;
+    place-items: center;
+}
+
+#cameraVideo,
+#photoCanvas {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.camera-hint {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+
+    padding: 10px;
+    text-align: center;
+
+    background: rgba(0,0,0,.6);
+    border-radius: 12px;
+}
+
+.photo-controls {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.sticker-panel {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.sticker-button {
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 12px;
+    background: rgba(255,255,255,.07);
+    font-size: 22px;
+}
+
+/* =========================================================
+   STORIES
+   ========================================================= */
+
+.story-tools {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.story-tools input {
+    flex: 1;
+    min-width: 220px;
+
+    padding: 12px;
+
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.1);
+
+    background: rgba(255,255,255,.05);
+    color: white;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(230px,1fr));
+    gap: 15px;
+}
+
+.story-card {
+    padding: 20px;
+    border-radius: 20px;
+
+    background: var(--card);
+
+    border: 1px solid rgba(255,255,255,.08);
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.story-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--pink);
+}
+
+.story-cover {
+    font-size: 60px;
+    min-height: 110px;
+    display: grid;
+    place-items: center;
+}
+
+.story-player {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.story-scene {
+    min-height: 300px;
+
+    display: grid;
+    place-items: center;
+
+    font-size: clamp(45px,9vw,90px);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(180deg,rgba(39,231,255,.12),rgba(155,92,255,.15));
+}
+
+.story-scene.walking {
+    animation: walkScene .7s infinite alternate;
+}
+
+@keyframes walkScene {
+    from {
+        transform: translateX(-8px);
+    }
+    to {
+        transform: translateX(8px);
+    }
+}
+
+.speech-bubble {
+    margin: 15px auto;
+    max-width: 700px;
+    padding: 15px;
+
+    text-align: center;
+
+    background: white;
+    color: #171421;
+
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.story-progress {
+    height: 8px;
+    background: rgba(255,255,255,.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#storyProgressBar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg,var(--cyan),var(--pink));
+}
+
+.story-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.story-buttons button {
+    border: 0;
+    padding: 10px 13px;
+    border-radius: 12px;
+    color: white;
+    background: rgba(255,255,255,.08);
+}
+
+.story-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.story-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+}
+
+.story-dot.active {
+    background: var(--pink);
+}
+
+.quiz-card {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.quiz-answer {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.05);
+    color: white;
+    text-align: left;
+}
+
+.quiz-answer:hover {
+    background: rgba(155,92,255,.2);
+}
+
+/* =========================================================
+   THANKS / VK VIDEO
+   ========================================================= */
+
+.vk-video-celebration {
+    position: relative;
+    overflow: hidden;
+
+    padding: 30px;
+
+    border-radius: 28px;
+
+    background:
+        radial-gradient(circle at 20% 20%,rgba(39,231,255,.22),transparent 30%),
+        radial-gradient(circle at 80% 20%,rgba(255,79,216,.22),transparent 30%),
+        linear-gradient(135deg,#15143a,#271348);
+
+    border: 1px solid rgba(255,255,255,.1);
+
+    box-shadow: 0 25px 80px rgba(0,0,0,.35);
+}
+
+.vk-video-icon {
+    font-size: 70px;
+}
+
+.vk-video-number {
+    font-size: clamp(70px,15vw,150px);
+    line-height: .9;
+    font-weight: 1000;
+
+    background: linear-gradient(90deg,var(--cyan),white,var(--pink));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.vk-video-label {
+    font-size: 22px;
+    color: var(--muted);
+}
+
+.vk-goal-card {
+    margin-top: 25px;
+    padding: 20px;
+
+    background: rgba(0,0,0,.22);
+    border-radius: 20px;
+}
+
+.goal-progress {
+    height: 18px;
+    margin-top: 12px;
+
+    overflow: hidden;
+
+    background: rgba(255,255,255,.1);
+    border-radius: 20px;
+}
+
+.goal-progress-fill {
+    height: 100%;
+    width: 50%;
+
+    background: linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+
+    transition: width .8s;
+}
+
+.reaction-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.reaction-button {
+    border: 0;
+    padding: 10px 15px;
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.08);
+    color: white;
+}
+
+.poll {
+    margin-top: 20px;
+}
+
+.poll-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+
+    margin: 8px 0;
+    padding: 13px;
+
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.05);
+    color: white;
+}
+
+.poll-result {
+    margin-top: 7px;
+}
+
+.poll-bar {
+    height: 8px;
+    border-radius: 10px;
+    background: linear-gradient(90deg,var(--purple),var(--pink));
+}
+
+/* =========================================================
+   POSTCARD
+   ========================================================= */
+
+.postcard-layout {
+    display: grid;
+    grid-template-columns: 1.5fr .8fr;
+    gap: 20px;
+}
+
+.postcard-preview {
+    overflow: hidden;
+    border-radius: 22px;
+    background: #05050b;
+}
+
+#postcardCanvas {
+    display: block;
+    width: 100%;
+}
+
+.postcard-controls {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.postcard-texts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.quote-card {
+    padding: 18px;
+    background: rgba(255,255,255,.06);
+    border-radius: 16px;
+}
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+.admin-login-card {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    text-align: center;
+
+    background: var(--card);
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.admin-lock-icon {
+    font-size: 70px;
+}
+
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap: 15px;
+}
+
+.admin-stat-card {
+    padding: 20px;
+    background: var(--card);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.admin-stat-card strong {
+    display: block;
+    font-size: 35px;
+    margin: 10px 0;
+}
+
+.admin-card {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.admin-bar-row {
+    margin: 12px 0;
+}
+
+.admin-bar {
+    height: 10px;
+    margin-top: 5px;
+    background: rgba(255,255,255,.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-bar div {
+    height: 100%;
+    background: linear-gradient(90deg,var(--cyan),var(--pink));
+}
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.admin-hint {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#toastContainer {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 8000;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-width: 350px;
+}
+
+.toast {
+    padding: 14px 17px;
+
+    background: #19172c;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 15px;
+
+    box-shadow: var(--shadow);
+
+    animation: toastIn .25s ease;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    max-width: 1400px;
+    margin: auto;
+    padding: 30px 18px;
+
+    text-align: center;
+    color: var(--muted);
+}
+
+.back-top {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+
+    width: 48px;
+    height: 48px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: linear-gradient(135deg,var(--purple),var(--pink));
+    color: white;
+
+    z-index: 3000;
+}
+
+/* =========================================================
+   LIGHT THEME
+   ========================================================= */
+
+body.light-theme {
+    --bg: #f2f1ff;
+    --bg2: #ffffff;
+    --card: rgba(255,255,255,.9);
+    --card2: white;
+    --text: #171525;
+    --muted: #65627a;
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(155,92,255,.12),transparent 30%),
+        #f4f3ff;
+}
+
+body.light-theme header {
+    background: rgba(255,255,255,.82);
+}
+
+body.light-theme .product-card,
+body.light-theme .story-card {
+    color: #171525;
+}
+
+body.light-theme .search-box input,
+body.light-theme input,
+body.light-theme textarea,
+body.light-theme select {
+    color: #171525;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .header-inner {
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        width: 100%;
+    }
+
+    .header-tools {
+        display: none;
+    }
+
+    .photo-layout,
+    .postcard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-preview-card {
+        min-height: 300px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .product-emoji {
+        height: 90px;
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 520px) {
+
+    main {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-card {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 12px;
+    }
+
+    .product-emoji {
+        height: 100px;
+    }
+
+    .product-card .product-badge {
+        left: 5px;
+        top: 5px;
+    }
+
+    .product-card .favorite-button {
+        top: 5px;
+        right: 5px;
+    }
+
+    .product-bottom {
+        grid-column: 1 / -1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     SPLASH
+     ====================================================== -->
+
+<div id="splashScreen">
+    <div class="splash-box">
+        <div class="splash-logo">markgg</div>
+        <div class="splash-subtitle">
+            маленькая большая вселенная 💜
+        </div>
+
+        <div id="splashNumber">3</div>
+
+        <p>Загрузка приключения...</p>
+    </div>
+</div>
+
+<div id="confettiContainer"></div>
+
+<!-- ======================================================
+     HEADER
+     ====================================================== -->
+
+<header>
+
+    <div class="header-inner">
+
+        <button class="logo" id="brandLogo">
+            markgg 💜
+        </button>
+
+        <nav class="nav">
+
+            <button class="active" data-section="shopSection">
+                🛍️ Магазин
+            </button>
+
+            <button data-section="gameSection">
+                🎮 Игра
+            </button>
+
+            <button data-section="photoSection">
+                📸 Фото
+            </button>
+
+            <button data-section="storiesSection">
+                📚 Сказки
+            </button>
+
+            <button data-section="thanksSection">
+                🎉 Спасибо
+            </button>
+
+            <button data-section="postcardSection">
+                💌 Открытка
+            </button>
+
+            <button data-section="adminSection">
+                🔐 Админ
+            </button>
+
+        </nav>
+
+        <div class="header-tools">
+
+            <button class="tool-button" id="themeButton">
+                🌙
+            </button>
+
+            <button class="tool-button" id="shareButton">
+                📤
+            </button>
+
+            <button class="tool-button" id="cartButton">
+                🛒 <span id="cartCount">0</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- ======================================================
+     MAIN
+     ====================================================== -->
+
+<main id="mainContent">
+
+<!-- ======================================================
+     МАГАЗИН
+     ====================================================== -->
+
+<section id="shopSection" class="page-section active-section">
+
+    <div class="section-heading">
+
+        <h1>🛍️ Магазин markgg</h1>
+
+        <p>
+            Маленький магазинчик с товарами по смешным ценам.
+        </p>
+
+    </div>
+
+    <div class="welcome-card">
+
+        <h2>💜 Добро пожаловать!</h2>
+
+        <p>
+            Здесь можно выбирать товары, добавлять их в избранное
+            и складывать в корзину.
+        </p>
+
+    </div>
+
+    <div class="shop-controls">
+
+        <label class="search-box">
+            🔎
+
+            <input
+                id="shopSearch"
+                type="search"
+                placeholder="Найти товар..."
+            >
+        </label>
+
+        <select id="shopSort" class="select-control">
+
+            <option value="default">
+                ⭐ По умолчанию
+            </option>
+
+            <option value="priceAsc">
+                💰 Сначала дешёвые
+            </option>
+
+            <option value="priceDesc">
+                💎 Сначала дорогие
+            </option>
+
+            <option value="nameAsc">
+                🔤 По названию
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="shop-info-row">
+
+        <div class="mini-stat">
+            ❤️ Избранное:
+            <strong id="favoriteCount">0</strong>
+        </div>
+
+        <div class="mini-stat">
+            🛒 В корзине:
+            <strong id="cartCount2">0</strong>
+        </div>
+
+    </div>
+
+    <div id="shopGrid" class="product-grid">
+        Загрузка...
+    </div>
+
+</section>
+
+<!-- ======================================================
+     ИГРА
+     ====================================================== -->
+
+<section id="gameSection" class="page-section">
+
+    <div class="section-heading">
+
+        <h1>🎮 markgg Runner</h1>
+
+        <p>
+            Прыгай, собирай монеты и устанавливай рекорды!
+        </p>
+
+    </div>
+
+    <div class="game-top-panel">
+
+        <div class="game-stat">
+            🏆 Рекорд:
+            <strong id="gameBestScore">0</strong>
+        </div>
+
+        <div class="game-stat">
+            ⭐ Очки:
+            <strong id="gameScore">0</strong>
+        </div>
+
+        <div class="game-stat">
+            🪙 Монеты:
+            <strong id="gameCoins">0</strong>
+        </div>
+
+    </div>
+
+    <div class="character-selector">
+
+        <button class="character-button selected" data-character="🧑">
+            🧑
+        </button>
+
+        <button class="character-button" data-character="🤖">
+            🤖
+        </button>
+
+        <button class="character-button" data-character="🐱">
+            🐱
+        </button>
+
+        <button class="character-button" data-character="🚀">
+            🚀
+        </button>
+
+    </div>
+
+    <div class="game-wrapper">
+
+        <canvas
+            id="gameCanvas"
+            width="1000"
+            height="500">
+        </canvas>
+
+        <div id="gameMessage" class="game-message">
+            🎮 Нажми «Старт»!
+        </div>
+
+    </div>
+
+    <div class="game-buttons">
+
+        <button
+            id="gameStartButton"
+            class="primary-button">
+            ▶️ Старт
+        </button>
+
+        <button
+            id="gamePauseButton"
+            class="secondary-button">
+            ⏸️ Пауза
+        </button>
+
+        <button
+            id="gameRetryButton"
+            class="secondary-button">
+            🔄 Заново
+        </button>
+
+    </div>
+
+    <button
+        id="mobileJumpButton"
+        class="jump-button">
+        ⬆️ ПРЫЖОК
+    </button>
+
+    <div class="help-card">
+        💡 Управление: Space / клик / кнопка «ПРЫЖОК».
+        Можно сделать двойной прыжок!
+        Клавиша P — пауза.
+    </div>
+
+</section>
+
+<!-- ======================================================
+     ФОТО
+     ====================================================== -->
+
+<section id="photoSection" class="page-section">
+
+    <div class="section-heading">
+
+        <h1>📸 Фото-студия</h1>
+
+        <p>
+            Сделай фотографию, добавь фильтр и наклейки.
+        </p>
+
+    </div>
+
+    <div class="photo-layout">
+
+        <div class="photo-preview-card">
+
+            <video
+                id="cameraVideo"
+                autoplay
+                playsinline
+                muted>
+            </video>
+
+            <canvas id="photoCanvas"></canvas>
+
+            <div id="cameraHint" class="camera-hint">
+                📷 Нажми «Камера», чтобы начать
+            </div>
+
+        </div>
+
+        <div class="photo-controls">
+
+            <input
+                id="photoFileInput"
+                type="file"
+                accept="image/*"
+                hidden>
+
+            <button
+                id="openCameraButton"
+                class="primary-button">
+                📷 Камера
+            </button>
+
+            <button
+                id="switchCameraButton"
+                class="secondary-button">
+                🔄 Другая камера
+            </button>
+
+            <button
+                id="takePhotoButton"
+                class="secondary-button">
+                📸 Сделать фото
+            </button>
+
+            <button
+                id="uploadPhotoButton"
+                class="secondary-button">
+                🖼️ Загрузить фото
+            </button>
+
+            <div class="control-group">
+
+                <label for="photoFilter">
+                    🎨 Фильтр
+                </label>
+
+                <select id="photoFilter">
+
+                    <option value="normal">
+                        Обычный
+                    </option>
+
+                    <option value="gray">
+                        Чёрно-белый
+                    </option>
+
+                    <option value="vintage">
+                        Винтаж
+                    </option>
+
+                    <option value="bright">
+                        Яркий
+                    </option>
+
+                    <option value="negative">
+                        Негатив
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="control-group">
+
+                <label for="photoCaption">
+                    ✏️ Текст
+                </label>
+
+                <input
+                    id="photoCaption"
+                    type="text"
+                    maxlength="60"
+                    placeholder="Напиши что-нибудь...">
+
+            </div>
+
+            <div class="sticker-panel">
+
+                <span>😀 Наклейка:</span>
+
+                <button
+                    class="sticker-button"
+                    data-sticker="❤️">
+                    ❤️
+                </button>
+
+                <button
+                    class="sticker-button"
+                    data-sticker="⭐">
+                    ⭐
+                </button>
+
+                <button
+                    class="sticker-button"
+                    data-sticker="🎉">
+                    🎉
+                </button>
+
+                <button
+                    class="sticker-button"
+                    data-sticker="🚀">
+                    🚀
+                </button>
+
+                <button
+                    class="sticker-button"
+                    data-sticker="😎">
+                    😎
+                </button>
+
+            </div>
+
+            <button
+                id="downloadPhotoButton"
+                class="primary-button">
+                ⬇️ Скачать PNG
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+     СКАЗКИ
+     ====================================================== -->
+
+<section id="storiesSection" class="page-section">
+
+    <div class="section-heading">
+
+        <h1>📚 Сказки markgg</h1>
+
+        <p>
+            Маленькие истории с героями, погодой и приключениями.
+        </p>
+
+    </div>
+
+    <div class="story-tools">
+
+        <input
+            id="storySearch"
+            type="search"
+            placeholder="🔎 Найти сказку...">
+
+        <button id="storyFontMinus" class="small-button">
+            A−
+        </button>
+
+        <button id="storyFontPlus" class="small-button">
+            A+
+        </button>
+
+    </div>
+
+    <div id="storyGrid" class="story-grid"></div>
+
+    <div id="storyPlayer" class="story-player hidden">
+
+        <div
+            id="storyScene"
+            class="story-scene">
+            🌳 🧑 🐱
+        </div>
+
+        <div
+            id="storySpeech"
+            class="speech-bubble">
+            Привет!
+        </div>
+
+        <div class="story-progress">
+
+            <div id="storyProgressBar"></div>
+
+        </div>
+
+        <div class="story-buttons">
+
+            <button id="storyPrevButton">
+                ◀️ Назад
+            </button>
+
+            <button id="storyAutoButton">
+                ▶️ Авто
+            </button>
+
+            <button id="storyNextButton">
+                Вперёд ▶️
+            </button>
+
+            <button id="storyRandomButton">
+                🎲
+            </button>
+
+            <button id="storyFullscreenButton">
+                ⛶
+            </button>
+
+        </div>
+
+        <div id="storyDots" class="story-dots"></div>
+
+    </div>
+
+    <div class="quiz-card">
+
+        <h3>🧠 Викторина</h3>
+
+        <p id="quizQuestion">
+            Загружаем вопрос...
+        </p>
+
+        <div id="quizAnswers"></div>
+
+        <div
+            id="quizResult"
+            class="quiz-result">
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+     СПАСИБО
+     ====================================================== -->
+
+<section id="thanksSection" class="page-section">
+
+    <div class="section-heading">
+
+        <h1>🎉 Спасибо!</h1>
+
+        <p>
+            Празднуем достижение VK Видео.
+        </p>
+
+    </div>
+
+    <div class="vk-video-celebration">
+
+        <div class="vk-video-icon">
+            ▶️
+        </div>
+
+        <h2>
+            УРА! У НАС 1000 ПРОСМОТРОВ В VK ВИДЕО!
+        </h2>
+
+        <div
+            id="vkVideoViews"
+            class="vk-video-number">
+            1000
+        </div>
+
+        <div class="vk-video-label">
+            просмотров 🎉
+        </div>
+
+        <p>
+            Спасибо каждому, кто посмотрел видео,
+            поставил реакцию или просто заглянул!
+        </p>
+
+        <div class="vk-goal-card">
+
+            <strong>
+                🚀 Следующая цель: 2000 просмотров
+            </strong>
+
+            <div class="goal-progress">
+
+                <div
+                    id="vkGoalProgress"
+                    class="goal-progress-fill">
+                </div>
+
+            </div>
+
+            <p id="vkGoalText">
+                1000 / 2000
+            </p>
+
+        </div>
+
+        <div class="reaction-row">
+
+            <button
+                class="reaction-button"
+                data-vk-reaction="❤️">
+                ❤️ <span>0</span>
+            </button>
+
+            <button
+                class="reaction-button"
+                data-vk-reaction="🔥">
+                🔥 <span>0</span>
+            </button>
+
+            <button
+                class="reaction-button"
+                data-vk-reaction="🎉">
+                🎉 <span>0</span>
+            </button>
+
+            <button
+                class="reaction-button"
+                data-vk-reaction="🚀">
+                🚀 <span>0</span>
+            </button>
+
+        </div>
+
+        <div class="game-buttons">
+
+            <button
+                id="vkCelebrateButton"
+                class="primary-button">
+                🎊 Праздновать!
+            </button>
+
+            <button
+                id="vkConfettiButton"
+                class="secondary-button">
+                ✨ Ещё конфетти
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ОПРОС -->
+
+    <div class="quiz-card poll">
+
+        <h2>🗳️ Что сделать дальше?</h2>
+
+        <p>
+            Один голос на этом браузере.
+        </p>
+
+        <div id="pollOptions"></div>
+
+        <div id="pollResults"></div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+     ОТКРЫТКА
+     ====================================================== -->
+
+<section id="postcardSection" class="page-section">
+
+    <div class="section-heading">
+
+        <h1>💌 Праздничная открытка</h1>
+
+        <p>
+            Можно изменить текст и число, затем сохранить PNG.
+        </p>
+
+    </div>
+
+    <div class="postcard-layout">
+
+        <div class="postcard-preview">
+
+            <canvas
+                id="postcardCanvas"
+                width="1200"
+                height="675">
+            </canvas>
+
+        </div>
+
+        <div class="postcard-controls">
+
+            <label>
+                🎨 Текст
+
+                <textarea
+                    id="postcardText"
+                    maxlength="180"
+                    rows="5">СПАСИБО ЗА 1000 ПРОСМОТРОВ!
+Вы сделали этот день особенным!
+Пусть markgg продолжает расти! 💜</textarea>
+
+            </label>
+
+            <label>
+                🔢 Большое число
+
+                <input
+                    id="postcardNumber"
+                    type="number"
+                    value="1000"
+                    min="0"
+                    max="999999">
+            </label>
+
+            <button
+                id="redrawPostcardButton"
+                class="secondary-button">
+                🎨 Перерисовать
+            </button>
+
+            <button
+                id="downloadPostcardButton"
+                class="primary-button">
+                ⬇️ Скачать открытку
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="postcard-texts">
+
+        <div class="quote-card">
+            🌟 1000 просмотров — это только начало!
+        </div>
+
+        <div class="quote-card">
+            🚀 Следующая остановка — 2000!
+        </div>
+
+        <div class="quote-card">
+            🎉 Сегодня markgg празднует!
+        </div>
+
+        <div class="quote-card">
+            ❤️ Спасибо всем!
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+     АДМИН
+     ====================================================== -->
+
+<section id="adminSection" class="page-section">
+
+    <div class="section-heading">
+
+        <h1>🔐 Админ-панель</h1>
+
+        <p>
+            Здесь находится статистика сайта.
+        </p>
+
+    </div>
+
+    <div
+        id="adminLocked"
+        class="admin-login-card">
+
+        <div class="admin-lock-icon">
+            🔐
+        </div>
+
+        <h3>
+            Админка закрыта
+        </h3>
+
+        <p>
+            Введи секретный PIN.
+        </p>
+
+        <input
+            id="adminPinInput"
+            type="password"
+            inputmode="numeric"
+            maxlength="4"
+            placeholder="4 цифры">
+
+        <br><br>
+
+        <button
+            id="adminLoginButton"
+            class="primary-button">
+            🔓 Войти
+        </button>
+
+        <p class="admin-hint">
+            💡 PIN по умолчанию: 2468
+        </p>
+
+    </div>
+
+    <div
+        id="adminPanel"
+        class="hidden">
+
+        <div class="admin-stats-grid">
+
+            <div class="admin-stat-card">
+                👁️
+                <strong id="adminTotalViews">
+                    0
+                </strong>
+                <span>
+                    просмотров разделов
+                </span>
+            </div>
+
+            <div class="admin-stat-card">
+                🎉
+                <strong id="adminCongrats">
+                    0
+                </strong>
+                <span>
+                    поздравлений
+                </span>
+            </div>
+
+            <div class="admin-stat-card">
+                🗳️
+                <strong id="adminVotes">
+                    0
+                </strong>
+                <span>
+                    голосов
+                </span>
+            </div>
+
+            <div class="admin-stat-card">
+                🏆
+                <strong id="adminRecord">
+                    0
+                </strong>
+                <span>
+                    рекорд игры
+                </span>
+            </div>
+
+        </div>
+
+        <div class="admin-card">
+
+            <h3>
+                📊 Просмотры разделов
+            </h3>
+
+            <div id="adminSectionStats"></div>
+
+        </div>
+
+        <div class="admin-card">
+
+            <h3>
+                🗳️ Результаты опроса
+            </h3>
+
+            <div id="adminPollResults"></div>
+
+        </div>
+
+        <div class="admin-actions">
+
+            <button
+                id="adminRefreshButton"
+                class="secondary-button">
+                🔄 Обновить
+            </button>
+
+            <button
+                id="adminCopyReportButton"
+                class="secondary-button">
+                📋 Скопировать отчёт
+            </button>
+
+            <button
+                id="adminResetButton"
+                class="danger-button">
+                🗑️ Сбросить
+            </button>
+
+            <button
+                id="adminLogoutButton"
+                class="secondary-button">
+                🔒 Выйти
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- ======================================================
+     FOOTER
+     ====================================================== -->
+
+<footer>
+
+    <p>
+        💜 Сайт сделал markgg
+    </p>
+
+    <p>
+        Маленький разработчик — большая идея 🚀
+    </p>
+
+    <p>
+        8 лет ❤️
+    </p>
+
+</footer>
+
+<button
+    id="backToTop"
+    class="back-top"
+    title="Наверх">
+    ↑
+</button>
+
+<div id="toastContainer"></div>
+
+<!-- ======================================================
+     MODAL
+     ====================================================== -->
+
+<div id="mainModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h2 id="modalTitle">
+                Корзина
+            </h2>
+
+            <button
+                id="closeModalButton"
+                class="close-modal">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+<script>
+/* =========================================================
+   markgg JAVASCRIPT
+   ВСЁ ЗДЕСЬ
+   ========================================================= */
+
+"use strict";
+
+/* =========================================================
+   НАСТРОЙКИ
+   ========================================================= */
+
+const ADMIN_PIN = "2468";
+
+const VK_VIDEO_VIEWS = 1000;
+const VK_VIDEO_NEXT_GOAL = 2000;
+
+const STORAGE = {
+    cart: "markgg_cart",
+    favorites: "markgg_favorites",
+    products: "markgg_products",
+    stats: "markgg_stats",
+    game: "markgg_game",
+    settings: "markgg_settings",
+    vk: "markgg_vk_video",
+    poll: "markgg_poll",
+    stories: "markgg_stories"
+};
+
+/* =========================================================
+   БЕЗОПАСНЫЙ DOM
+   ========================================================= */
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+function $all(selector) {
+    return Array.from(document.querySelectorAll(selector));
+}
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
+
+function loadJSON(key, fallback) {
+
+    try {
+
+        const value = localStorage.getItem(key);
+
+        if (!value) {
+            return fallback;
+        }
+
+        return JSON.parse(value);
+
+    } catch (error) {
+
+        console.warn("Ошибка чтения localStorage:", error);
+
+        return fallback;
+    }
+}
+
+function saveJSON(key, value) {
+
+    try {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.warn("Ошибка сохранения:", error);
+
+        return false;
+    }
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message) {
+
+    const container = $("toastContainer");
+
+    if (!container) {
+        return;
+    }
+
+    const toast = document.createElement("div");
+
+    toast.className = "toast";
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+
+        toast.style.opacity = "0";
+
+        setTimeout(() => {
+
+            if (toast.parentNode) {
+                toast.remove();
+            }
+
+        }, 300);
+
+    }, 2500);
+}
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
+
+function launchConfetti(amount = 100) {
+
+    const container = $("confettiContainer");
+
+    if (!container) {
+        return;
+    }
+
+    const emojis = [
+        "🎉",
+        "✨",
+        "⭐",
+        "💜",
+        "❤️",
+        "🚀",
+        "🎊",
+        "💎"
+    ];
+
+    for (let i = 0; i < amount; i++) {
+
+        const piece = document.createElement("div");
+
+        piece.className = "confetti-piece";
+
+        piece.textContent =
+            emojis[Math.floor(Math.random() * emojis.length)];
+
+        piece.style.left =
+            Math.random() * 100 + "%";
+
+        piece.style.top =
+            (-Math.random() * 100) + "px";
+
+        piece.style.fontSize =
+            (10 + Math.random() * 20) + "px";
+
+        piece.style.width = "auto";
+        piece.style.height = "auto";
+
+        piece.style.animationDuration =
+            (2 + Math.random() * 4) + "s";
+
+        container.appendChild(piece);
+
+        setTimeout(() => {
+
+            if (piece.parentNode) {
+                piece.remove();
+            }
+
+        }, 6500);
+    }
+}
+
+/* =========================================================
+   SPLASH
+   ========================================================= */
+
+function startSplash() {
+
+    const splash = $("splashScreen");
+    const number = $("splashNumber");
+
+    if (!splash || !number) {
+        return;
+    }
+
+    let count = 3;
+
+    number.textContent = count;
+
+    const timer = setInterval(() => {
+
+        count--;
+
+        if (count > 0) {
+
+            number.textContent = count;
+
+        } else {
+
+            clearInterval(timer);
+
+            number.textContent = "🚀";
+
+            launchConfetti(80);
+
+            setTimeout(() => {
+
+                splash.classList.add("fade-out");
+
+                setTimeout(() => {
+
+                    splash.style.display = "none";
+
+                }, 800);
+
+            }, 500);
+        }
+
+    }, 700);
+}
+
+/* =========================================================
+   НАВИГАЦИЯ
+   ========================================================= */
+
+const sectionNames = {
+    shopSection: "Магазин",
+    gameSection: "Игра",
+    photoSection: "Фото",
+    storiesSection: "Сказки",
+    thanksSection: "Спасибо",
+    postcardSection: "Открытка",
+    adminSection: "Админ"
+};
+
+let sectionViews = loadJSON(
+    STORAGE.stats,
+    {
+        views: {},
+        congrats: 0
+    }
+);
+
+function openSection(sectionId) {
+
+    const section = $(sectionId);
+
+    if (!section) {
+        return;
+    }
+
+    $all(".page-section").forEach(item => {
+
+        item.classList.remove("active-section");
+
+    });
+
+    section.classList.add("active-section");
+
+    $all(".nav button").forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.section === sectionId
+        );
+
+    });
+
+    sectionViews.views[sectionId] =
+        (sectionViews.views[sectionId] || 0) + 1;
+
+    saveJSON(STORAGE.stats, sectionViews);
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    if (sectionId === "postcardSection") {
+        drawPostcard();
+    }
+
+    if (sectionId === "adminSection") {
+        updateAdmin();
+    }
+}
+
+$all(".nav button").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        openSection(button.dataset.section);
+
+    });
+
+});
+
+/* =========================================================
+   ЛОГО
+   ========================================================= */
+
+$("brandLogo")?.addEventListener("dblclick", () => {
+
+    launchConfetti(180);
+
+    showToast("🎉 Секретный салют markgg!");
+
+});
+
+/* =========================================================
+   ТЕМА
+   ========================================================= */
+
+let settings = loadJSON(
+    STORAGE.settings,
+    {
+        light: false
+    }
+);
+
+function updateTheme() {
+
+    document.body.classList.toggle(
+        "light-theme",
+        settings.light
+    );
+
+    if ($("themeButton")) {
+
+        $("themeButton").textContent =
+            settings.light ? "☀️" : "🌙";
+    }
+}
+
+$("themeButton")?.addEventListener("click", () => {
+
+    settings.light = !settings.light;
+
+    saveJSON(STORAGE.settings, settings);
+
+    updateTheme();
+
+});
+
+/* =========================================================
+   ПОДЕЛИТЬСЯ
+   ========================================================= */
+
+$("shareButton")?.addEventListener("click", async () => {
+
+    const shareData = {
+        title: "markgg",
+        text: "Посмотри мою маленькую большую вселенную markgg!",
+        url: location.href
+    };
+
+    try {
+
+        if (navigator.share) {
+
+            await navigator.share(shareData);
+
+        } else if (navigator.clipboard) {
+
+            await navigator.clipboard.writeText(
+                location.href
+            );
+
+            showToast("📋 Ссылка скопирована!");
+
+        } else {
+
+            showToast("📎 Скопируй ссылку из адресной строки.");
+
+        }
+
+    } catch (error) {
+
+        if (error.name !== "AbortError") {
+            showToast("Не получилось поделиться.");
+        }
+    }
+});
+
+/* =========================================================
+   МАГАЗИН
+   ========================================================= */
+
+const DEFAULT_PRODUCTS = [
+
+    {
+        id: 1,
+        name: "Неоновая звезда",
+        price: 10,
+        category: "Украшения",
+        emoji: "⭐",
+        badge: "ХИТ"
+    },
+
+    {
+        id: 2,
+        name: "Кристалл удачи",
+        price: 20,
+        category: "Игровое",
+        emoji: "💎",
+        badge: "НОВИНКА"
+    },
+
+    {
+        id: 3,
+        name: "Ракета markgg",
+        price: 20,
+        category: "Игрушки",
+        emoji: "🚀",
+        badge: "ТОП"
+    },
+
+    {
+        id: 4,
+        name: "Котик",
+        price: 10,
+        category: "Игрушки",
+        emoji: "🐱",
+        badge: ""
+    },
+
+    {
+        id: 5,
+        name: "Робот",
+        price: 20,
+        category: "Игрушки",
+        emoji: "🤖",
+        badge: "ХИТ"
+    },
+
+    {
+        id: 6,
+        name: "Сердечко",
+        price: 10,
+        category: "Подарки",
+        emoji: "❤️",
+        badge: ""
+    },
+
+    {
+        id: 7,
+        name: "Зелье энергии",
+        price: 20,
+        category: "Игровое",
+        emoji: "🧪",
+        badge: "МАГИЯ"
+    },
+
+    {
+        id: 8,
+        name: "Сундук",
+        price: 20,
+        category: "Игровое",
+        emoji: "🎁",
+        badge: ""
+    },
+
+    {
+        id: 9,
+        name: "Неоновый шар",
+        price: 10,
+        category: "Украшения",
+        emoji: "🔮",
+        badge: ""
+    },
+
+    {
+        id: 10,
+        name: "Корона",
+        price: 20,
+        category: "Подарки",
+        emoji: "👑",
+        badge: "VIP"
+    },
+
+    {
+        id: 11,
+        name: "Монетка",
+        price: 10,
+        category: "Игровое",
+        emoji: "🪙",
+        badge: ""
+    },
+
+    {
+        id: 12,
+        name: "Молния",
+        price: 10,
+        category: "Украшения",
+        emoji: "⚡",
+        badge: ""
+    }
+];
+
+let products = loadJSON(
+    STORAGE.products,
+    DEFAULT_PRODUCTS
+);
+
+if (!Array.isArray(products) || products.length === 0) {
+    products = [...DEFAULT_PRODUCTS];
+}
+
+let favorites = loadJSON(
+    STORAGE.favorites,
+    []
+);
+
+let cart = loadJSON(
+    STORAGE.cart,
+    []
+);
+
+function renderShop() {
+
+    const grid = $("shopGrid");
+
+    if (!grid) {
+        return;
+    }
+
+    const search =
+        ($("shopSearch")?.value || "")
+        .trim()
+        .toLowerCase();
+
+    const sort =
+        $("shopSort")?.value || "default";
+
+    let result = products.filter(product => {
+
+        return (
+            product.name.toLowerCase().includes(search) ||
+            product.category.toLowerCase().includes(search)
+        );
+
+    });
+
+    if (sort === "priceAsc") {
+
+        result.sort((a,b) => a.price - b.price);
+
+    } else if (sort === "priceDesc") {
+
+        result.sort((a,b) => b.price - a.price);
+
+    } else if (sort === "nameAsc") {
+
+        result.sort((a,b) =>
+            a.name.localeCompare(b.name, "ru")
+        );
+
+    }
+
+    if (result.length === 0) {
+
+        grid.innerHTML = `
+            <div class="welcome-card">
+                😢 Ничего не найдено.
+            </div>
+        `;
+
+        return;
+    }
+
+    grid.innerHTML = result.map(product => {
+
+        const isFavorite =
+            favorites.includes(product.id);
+
+        return `
+
+        <article class="product-card">
+
+            ${
+                product.badge
+                ? `<div class="product-badge">
+                       ${product.badge}
+                   </div>`
+                : ""
+            }
+
+            <button
+                class="favorite-button ${isFavorite ? "active" : ""}"
+                data-favorite="${product.id}">
+                ${isFavorite ? "❤️" : "♡"}
+            </button>
+
+            <div class="product-emoji">
+                ${product.emoji}
+            </div>
+
+            <div>
+
+                <h3 class="product-name">
+                    ${escapeHTML(product.name)}
+                </h3>
+
+                <div class="product-category">
+                    ${escapeHTML(product.category)}
+                </div>
+
+            </div>
+
+            <div class="product-bottom">
+
+                <div class="price">
+                    ${product.price} ₽
+                </div>
+
+                <button
+                    class="primary-button add-cart-button"
+                    data-product="${product.id}">
+                    🛒 Добавить
+                </button>
+
+            </div>
+
+        </article>
+        `;
+
+    }).join("");
+
+    $all("[data-favorite]").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            toggleFavorite(
+                Number(button.dataset.favorite)
+            );
+
+        });
+
+    });
+
+    $all(".add-cart-button").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            addToCart(
+                Number(button.dataset.product)
+            );
+
+        });
+
+    });
+
+    updateShopCounters();
+}
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function toggleFavorite(id) {
+
+    if (favorites.includes(id)) {
+
+        favorites =
+            favorites.filter(item => item !== id);
+
+        showToast("♡ Убрано из избранного");
+
+    } else {
+
+        favorites.push(id);
+
+        showToast("❤️ Добавлено в избранное!");
+
+    }
+
+    saveJSON(
+        STORAGE.favorites,
+        favorites
+    );
+
+    renderShop();
+}
+
+function addToCart(id) {
+
+    const item = cart.find(
+        product => product.id === id
+    );
+
+    if (item) {
+
+        item.quantity++;
+
+    } else {
+
+        cart.push({
+            id,
+            quantity: 1
+        });
+
+    }
+
+    saveJSON(
+        STORAGE.cart,
+        cart
+    );
+
+    updateShopCounters();
+
+    showToast("🛒 Товар добавлен в корзину!");
+
+}
+
+function updateShopCounters() {
+
+    const count =
+        cart.reduce(
+            (sum,item) => sum + item.quantity,
+            0
+        );
+
+    if ($("cartCount")) {
+        $("cartCount").textContent = count;
+    }
+
+    if ($("cartCount2")) {
+        $("cartCount2").textContent = count;
+    }
+
+    if ($("favoriteCount")) {
+        $("favoriteCount").textContent =
+            favorites.length;
+    }
+}
+
+$("shopSearch")?.addEventListener(
+    "input",
+    renderShop
+);
+
+$("shopSort")?.addEventListener(
+    "change",
+    renderShop
+);
+
+/* =========================================================
+   КОРЗИНА
+   ========================================================= */
+
+function openModal(title, content) {
+
+    $("modalTitle").textContent = title;
+    $("modalContent").innerHTML = content;
+
+    $("mainModal").classList.add("open");
+}
+
+function closeModal() {
+
+    $("mainModal").classList.remove("open");
+}
+
+$("closeModalButton")?.addEventListener(
+    "click",
+    closeModal
+);
+
+$("mainModal")?.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === $("mainModal")) {
+            closeModal();
+        }
+
+    }
+);
+
+document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape") {
+        closeModal();
+    }
+
+});
+
+function openCart() {
+
+    if (cart.length === 0) {
+
+        openModal(
+            "🛒 Корзина",
+            `
+                <p>
+                    Пока корзина пустая.
+                </p>
+
+                <button
+                    class="primary-button"
+                    onclick="closeModal()">
+                    Хорошо
+                </button>
+            `
+        );
+
+        return;
+    }
+
+    const items = cart.map(item => {
+
+        const product =
+            products.find(
+                product => product.id === item.id
+            );
+
+        if (!product) {
+            return "";
+        }
+
+        return `
+
+        <div class="cart-item">
+
+            <div class="cart-item-icon">
+                ${product.emoji}
+            </div>
+
+            <div class="cart-item-info">
+
+                <strong>
+                    ${escapeHTML(product.name)}
+                </strong>
+
+                <br>
+
+                ${product.price} ₽ × ${item.quantity}
+
+            </div>
+
+            <button
+                class="small-button"
+                onclick="changeCart(${product.id},1)">
+                +
+            </button>
+
+            <button
+                class="small-button"
+                onclick="changeCart(${product.id},-1)">
+                −
+            </button>
+
+            <button
+                class="small-button"
+                onclick="removeCart(${product.id})">
+                🗑️
+            </button>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+    const total =
+        cart.reduce((sum,item) => {
+
+            const product =
+                products.find(
+                    product => product.id === item.id
+                );
+
+            return sum +
+                (product
+                    ? product.price * item.quantity
+                    : 0);
+
+        },0);
+
+    openModal(
+        "🛒 Корзина",
+        `
+
+            ${items}
+
+            <hr>
+
+            <h2>
+                Итого: ${total} ₽
+            </h2>
+
+            <button
+                class="primary-button"
+                onclick="checkout()">
+                💳 Оформить заказ
+            </button>
+
+        `
+    );
+}
+
+function changeCart(id, delta) {
+
+    const item =
+        cart.find(product => product.id === id);
+
+    if (!item) {
+        return;
+    }
+
+    item.quantity += delta;
+
+    if (item.quantity <= 0) {
+
+        cart =
+            cart.filter(
+                product => product.id !== id
+            );
+    }
+
+    saveJSON(
+        STORAGE.cart,
+        cart
+    );
+
+    updateShopCounters();
+
+    openCart();
+}
+
+function removeCart(id) {
+
+    cart =
+        cart.filter(
+            product => product.id !== id
+        );
+
+    saveJSON(
+        STORAGE.cart,
+        cart
+    );
+
+    updateShopCounters();
+
+    openCart();
+}
+
+function checkout() {
+
+    cart = [];
+
+    saveJSON(
+        STORAGE.cart,
+        cart
+    );
+
+    updateShopCounters();
+
+    closeModal();
+
+    showToast(
+        "🎉 Демозаказ оформлен! Это учебный магазин."
+    );
+
+}
+
+$("cartButton")?.addEventListener(
+    "click",
+    openCart
+);
+
+/* =========================================================
+   ИГРА
+   ========================================================= */
+
+const gameCanvas = $("gameCanvas");
+const gameCtx = gameCanvas
+    ? gameCanvas.getContext("2d")
+    : null;
+
+let game = {
+    running: false,
+    paused: false,
+    score: 0,
+    coins: 0,
+    speed: 5,
+    time: 0,
+    best: Number(
+        localStorage.getItem("markgg_game_best") || 0
+    ),
+    character: "🧑",
+
+    player: {
+        x: 120,
+        y: 350,
+        w: 55,
+        h: 70,
+        velocityY: 0,
+        jumps: 0,
+        grounded: true
+    },
+
+    obstacles: [],
+    coinsObjects: [],
+
+    lastTime: 0,
+    obstacleTimer: 0,
+    coinTimer: 0
+};
+
+function resizeGameCanvas() {
+
+    if (!gameCanvas) {
+        return;
+    }
+
+    const width =
+        gameCanvas.clientWidth || 1000;
+
+    const ratio =
+        500 / 1000;
+
+    gameCanvas.height =
+        Math.max(250, width * ratio);
+
+}
+
+window.addEventListener(
+    "resize",
+    resizeGameCanvas
+);
+
+function resetGame() {
+
+    game.score = 0;
+    game.coins = 0;
+    game.speed = 5;
+    game.time = 0;
+
+    game.player = {
+        x: 120,
+        y: 350,
+        w: 55,
+        h: 70,
+        velocityY: 0,
+        jumps: 0,
+        grounded: true
+    };
+
+    game.obstacles = [];
+    game.coinsObjects = [];
+
+    updateGameUI();
+
+    if ($("gameMessage")) {
+
+        $("gameMessage").textContent =
+            "🎮 Нажми «Старт»!";
+    }
+}
+
+function updateGameUI() {
+
+    if ($("gameBestScore")) {
+        $("gameBestScore").textContent =
+            game.best;
+    }
+
+    if ($("gameScore")) {
+        $("gameScore").textContent =
+            Math.floor(game.score);
+    }
+
+    if ($("gameCoins")) {
+        $("gameCoins").textContent =
+            game.coins;
+    }
+}
+
+function jump() {
+
+    if (!game.running || game.paused) {
+        return;
+    }
+
+    if (game.player.grounded) {
+
+        game.player.velocityY = -13;
+        game.player.grounded = false;
+        game.player.jumps = 1;
+
+        playBeep(500,0.07);
+
+    } else if (game.player.jumps < 2) {
+
+        game.player.velocityY = -12;
+        game.player.jumps++;
+
+        playBeep(650,0.07);
+    }
+}
+
+function spawnObstacle() {
+
+    const groundY = 420;
+
+    const height =
+        40 + Math.random() * 65;
+
+    game.obstacles.push({
+
+        x: 1050,
+
+        y:
+            groundY - height,
+
+        w:
+            35 + Math.random() * 35,
+
+        h:
+            height
+    });
+}
+
+function spawnCoin() {
+
+    game.coinsObjects.push({
+
+        x: 1050,
+
+        y:
+            220 + Math.random() * 130,
+
+        r: 14
+    });
+}
+
+function rectCollision(a,b) {
+
+    return (
+        a.x < b.x + b.w &&
+        a.x + a.w > b.x &&
+        a.y < b.y + b.h &&
+        a.y + a.h > b.y
+    );
+}
+
+function coinCollision(player,coin) {
+
+    return (
+        player.x < coin.x + coin.r &&
+        player.x + player.w > coin.x - coin.r &&
+        player.y < coin.y + coin.r &&
+        player.y + player.h > coin.y - coin.r
+    );
+}
+
+function updateGame(delta) {
+
+    game.time += delta;
+
+    game.speed =
+        Math.min(
+            13,
+            5 + game.time * .0005
+        );
+
+    game.score += delta * .01;
+
+    /* ГРАВИТАЦИЯ */
+
+    game.player.velocityY +=
+        0.65 * (delta / 16);
+
+    game.player.y +=
+        game.player.velocityY *
+        (delta / 16);
+
+    const ground = 420;
+
+    if (
+        game.player.y +
+        game.player.h >=
+        ground
+    ) {
+
+        game.player.y =
+            ground -
+            game.player.h;
+
+        game.player.velocityY = 0;
+
+        game.player.grounded = true;
+        game.player.jumps = 0;
+
+    }
+
+    /* ПРЕПЯТСТВИЯ */
+
+    game.obstacleTimer += delta;
+
+    if (
+        game.obstacleTimer >
+        Math.max(
+            700,
+            1500 - game.speed * 50
+        )
+    ) {
+
+        game.obstacleTimer = 0;
+
+        spawnObstacle();
+    }
+
+    game.obstacles.forEach(
+        obstacle => {
+            obstacle.x -=
+                game.speed *
+                delta / 16;
+        }
+    );
+
+    game.obstacles =
+        game.obstacles.filter(
+            obstacle =>
+                obstacle.x > -100
+        );
+
+    /* МОНЕТЫ */
+
+    game.coinTimer += delta;
+
+    if (game.coinTimer > 1000) {
+
+        game.coinTimer = 0;
+
+        spawnCoin();
+    }
+
+    game.coinsObjects.forEach(
+        coin => {
+            coin.x -=
+                game.speed *
+                delta / 16;
+        }
+    );
+
+    game.coinsObjects =
+        game.coinsObjects.filter(
+            coin => coin.x > -50
+        );
+
+    /* СТОЛКНОВЕНИЕ */
+
+    for (const obstacle of game.obstacles) {
+
+        if (
+            rectCollision(
+                game.player,
+                obstacle
+            )
+        ) {
+
+            gameOver();
+
+            return;
+        }
+    }
+
+    for (
+        let i = game.coinsObjects.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const coin =
+            game.coinsObjects[i];
+
+        if (
+            coinCollision(
+                game.player,
+                coin
+            )
+        ) {
+
+            game.coins++;
+
+            game.score += 50;
+
+            game.coinsObjects.splice(i,1);
+
+            playBeep(900,.08);
+        }
+    }
+
+    updateGameUI();
+}
+
+function drawGame() {
+
+    if (!gameCtx) {
+        return;
+    }
+
+    const w = gameCanvas.width;
+    const h = gameCanvas.height;
+
+    gameCtx.clearRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+    /* НЕБО */
+
+    const gradient =
+        gameCtx.createLinearGradient(
+            0,0,0,h
+        );
+
+    gradient.addColorStop(
+        0,
+        "#20205b"
+    );
+
+    gradient.addColorStop(
+        1,
+        "#090916"
+    );
+
+    gameCtx.fillStyle = gradient;
+
+    gameCtx.fillRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+    /* ЗВЁЗДЫ */
+
+    gameCtx.fillStyle =
+        "rgba(255,255,255,.5)";
+
+    for (let i = 0; i < 50; i++) {
+
+        const x =
+            (i * 83) % w;
+
+        const y =
+            (i * 37) % 230;
+
+        gameCtx.fillRect(
+            x,
+            y,
+            2,
+            2
+        );
+    }
+
+    /* ЗЕМЛЯ */
+
+    gameCtx.fillStyle =
+        "#17172b";
+
+    gameCtx.fillRect(
+        0,
+        420,
+        w,
+        h - 420
+    );
+
+    gameCtx.strokeStyle =
+        "#9b5cff";
+
+    gameCtx.lineWidth = 3;
+
+    gameCtx.beginPath();
+
+    gameCtx.moveTo(
+        0,
+        420
+    );
+
+    gameCtx.lineTo(
+        w,
+        420
+    );
+
+    gameCtx.stroke();
+
+    /* ИГРОК */
+
+    gameCtx.font = "58px Arial";
+
+    gameCtx.textAlign = "center";
+
+    gameCtx.fillText(
+        game.character,
+        game.player.x +
+            game.player.w / 2,
+        game.player.y +
+            game.player.h - 5
+    );
+
+    /* ПРЕПЯТСТВИЯ */
+
+    game.obstacles.forEach(
+        obstacle => {
+
+            gameCtx.fillStyle =
+                "#ff4fd8";
+
+            gameCtx.beginPath();
+
+            gameCtx.roundRect(
+                obstacle.x,
+                obstacle.y,
+                obstacle.w,
+                obstacle.h,
+                8
+            );
+
+            gameCtx.fill();
+
+            gameCtx.font = "22px Arial";
+
+            gameCtx.fillText(
+                "⚠️",
+                obstacle.x +
+                    obstacle.w / 2,
+                obstacle.y + 25
+            );
+
+        }
+    );
+
+    /* МОНЕТЫ */
+
+    game.coinsObjects.forEach(
+        coin => {
+
+            gameCtx.font = "28px Arial";
+
+            gameCtx.fillText(
+                "🪙",
+                coin.x,
+                coin.y
+            );
+
+        }
+    );
+}
+
+function gameLoop(timestamp) {
+
+    if (!game.running) {
+        return;
+    }
+
+    const delta =
+        game.lastTime
+        ? timestamp - game.lastTime
+        : 16;
+
+    game.lastTime = timestamp;
+
+    if (!game.paused) {
+
+        updateGame(delta);
+
+        drawGame();
+    }
+
+    requestAnimationFrame(
+        gameLoop
+    );
+}
+
+function startGame() {
+
+    resetGame();
+
+    game.running = true;
+    game.paused = false;
+    game.lastTime = 0;
+
+    if ($("gameMessage")) {
+        $("gameMessage").textContent = "";
+    }
+
+    requestAnimationFrame(
+        gameLoop
+    );
+}
+
+function pauseGame() {
+
+    if (!game.running) {
+        return;
+    }
+
+    game.paused =
+        !game.paused;
+
+    if ($("gameMessage")) {
+
+        $("gameMessage").textContent =
+            game.paused
+                ? "⏸️ Пауза"
+                : "";
+    }
+}
+
+function gameOver() {
+
+    game.running = false;
+
+    const score =
+        Math.floor(game.score);
+
+    if (score > game.best) {
+
+        game.best = score;
+
+        localStorage.setItem(
+            "markgg_game_best",
+            String(game.best)
+        );
+
+        showToast(
+            "🏆 Новый рекорд!"
+        );
+
+        launchConfetti(60);
+
+    } else {
+
+        showToast(
+            "💥 Игра закончилась!"
+        );
+    }
+
+    updateGameUI();
+
+    if ($("gameMessage")) {
+
+        $("gameMessage").textContent =
+            "💥 Игра окончена! Нажми «Заново».";
+    }
+}
+
+$("gameStartButton")?.addEventListener(
+    "click",
+    startGame
+);
+
+$("gamePauseButton")?.addEventListener(
+    "click",
+    pauseGame
+);
+
+$("gameRetryButton")?.addEventListener(
+    "click",
+    startGame
+);
+
+$("mobileJumpButton")?.addEventListener(
+    "pointerdown",
+    jump
+);
+
+gameCanvas?.addEventListener(
+    "pointerdown",
+    jump
+);
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.code === "Space"
+        ) {
+
+            event.preventDefault();
+
+            jump();
+        }
+
+        if (
+            event.key.toLowerCase() === "p"
+        ) {
+
+            pauseGame();
+        }
+    }
+);
+
+$all(".character-button").forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                $all(".character-button")
+                    .forEach(
+                        b =>
+                            b.classList.remove(
+                                "selected"
+                            )
+                    );
+
+                button.classList.add(
+                    "selected"
+                );
+
+                game.character =
+                    button.dataset.character;
+            }
+        );
+    }
+);
+
+/* =========================================================
+   ЗВУК
+   ========================================================= */
+
+let audioContext = null;
+
+function playBeep(
+    frequency = 500,
+    duration = .1
+) {
+
+    try {
+
+        if (!audioContext) {
+
+            audioContext =
+                new (
+                    window.AudioContext ||
+                    window.webkitAudioContext
+                )();
+
+        }
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+        oscillator.frequency.value =
+            frequency;
+
+        oscillator.type = "sine";
+
+        gain.gain.setValueAtTime(
+            .05,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audioContext.currentTime +
+                duration
+        );
+
+        oscillator.connect(gain);
+
+        gain.connect(
+            audioContext.destination
+        );
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime +
+            duration
+        );
+
+    } catch (error) {
+        /* Звук необязательный */
+    }
+}
+
+/* =========================================================
+   ФОТО
+   ========================================================= */
+
+let cameraStream = null;
+let currentFacingMode = "environment";
+let currentImage = null;
+let selectedSticker = null;
+
+function stopCamera() {
+
+    if (cameraStream) {
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track => track.stop()
+            );
+
+        cameraStream = null;
+    }
+}
+
+async function openCamera() {
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+
+        showToast(
+            "📷 Камера не поддерживается этим браузером."
+        );
+
+        return;
+    }
+
+    try {
+
+        stopCamera();
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode:
+                        currentFacingMode
+                },
+                audio: false
+            });
+
+        $("cameraVideo").srcObject =
+            cameraStream;
+
+        $("cameraVideo").style.display =
+            "block";
+
+        $("photoCanvas").style.display =
+            "none";
+
+        $("cameraHint").textContent =
+            "📷 Камера включена!";
+
+    } catch (error) {
+
+        showToast(
+            "📷 Не удалось открыть камеру. Проверь разрешение."
+        );
+    }
+}
+
+async function switchCamera() {
+
+    currentFacingMode =
+        currentFacingMode === "environment"
+            ? "user"
+            : "environment";
+
+    await openCamera();
+}
+
+function takePhoto() {
+
+    if (!cameraStream) {
+
+        showToast(
+            "Сначала включи камеру."
+        );
+
+        return;
+    }
+
+    const video = $("cameraVideo");
+    const canvas = $("photoCanvas");
+
+    if (!video.videoWidth) {
+
+        showToast(
+            "Подожди, пока камера загрузится."
+        );
+
+        return;
+    }
+
+    canvas.width =
+        video.videoWidth;
+
+    canvas.height =
+        video.videoHeight;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    currentImage =
+        canvas.toDataURL("image/png");
+
+    canvas.style.display =
+        "block";
+
+    video.style.display =
+        "none";
+
+    $("cameraHint").textContent =
+        "🎉 Фото готово!";
+
+    applyPhotoFilter();
+}
+
+function uploadPhoto() {
+
+    $("photoFileInput")?.click();
+}
+
+$("photoFileInput")?.addEventListener(
+    "change",
+    event => {
+
+        const file =
+            event.target.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        const reader =
+            new FileReader();
+
+        reader.onload = () => {
+
+            currentImage =
+                reader.result;
+
+            const image =
+                new Image();
+
+            image.onload = () => {
+
+                const canvas =
+                    $("photoCanvas");
+
+                canvas.width =
+                    image.width;
+
+                canvas.height =
+                    image.height;
+
+                canvas
+                    .getContext("2d")
+                    .drawImage(
+                        image,
+                        0,
+                        0
+                    );
+
+                $("cameraVideo")
+                    .style.display =
+                    "none";
+
+                canvas.style.display =
+                    "block";
+
+                $("cameraHint").textContent =
+                    "🖼️ Фото загружено!";
+
+                applyPhotoFilter();
+
+            };
+
+            image.src =
+                currentImage;
+        };
+
+        reader.readAsDataURL(file);
+    }
+);
+
+function applyPhotoFilter() {
+
+    const canvas =
+        $("photoCanvas");
+
+    if (!canvas.width) {
+        return;
+    }
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const imageData =
+        ctx.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+    const data =
+        imageData.data;
+
+    const filter =
+        $("photoFilter")?.value ||
+        "normal";
+
+    for (
+        let i = 0;
+        i < data.length;
+        i += 4
+    ) {
+
+        let r = data[i];
+        let g = data[i + 1];
+        let b = data[i + 2];
+
+        if (filter === "gray") {
+
+            const gray =
+                .299*r +
+                .587*g +
+                .114*b;
+
+            r = g = b = gray;
+        }
+
+        if (filter === "bright") {
+
+            r *= 1.25;
+            g *= 1.25;
+            b *= 1.25;
+        }
+
+        if (filter === "negative") {
+
+            r = 255-r;
+            g = 255-g;
+            b = 255-b;
+        }
+
+        if (filter === "vintage") {
+
+            r =
+                .393*r +
+                .769*g +
+                .189*b;
+
+            g =
+                .349*r +
+                .686*g +
+                .168*b;
+
+            b =
+                .272*r +
+                .534*g +
+                .131*b;
+        }
+
+        data[i] =
+            Math.min(255,r);
+
+        data[i+1] =
+            Math.min(255,g);
+
+        data[i+2] =
+            Math.min(255,b);
+    }
+
+    ctx.putImageData(
+        imageData,
+        0,
+        0
+    );
+
+    drawPhotoExtras();
+}
+
+function drawPhotoExtras() {
+
+    const canvas =
+        $("photoCanvas");
+
+    if (!canvas.width) {
+        return;
+    }
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const text =
+        $("photoCaption")?.value ||
+        "";
+
+    if (text.trim()) {
+
+        ctx.font =
+            `${Math.max(25,canvas.width / 22)}px Arial`;
+
+        ctx.textAlign = "center";
+
+        ctx.lineWidth = 8;
+
+        ctx.strokeStyle = "black";
+
+        ctx.fillStyle = "white";
+
+        ctx.strokeText(
+            text,
+            canvas.width / 2,
+            canvas.height - 30
+        );
+
+        ctx.fillText(
+            text,
+            canvas.width / 2,
+            canvas.height - 30
+        );
+    }
+
+    if (selectedSticker) {
+
+        ctx.font =
+            `${Math.max(40,canvas.width / 10)}px Arial`;
+
+        ctx.textAlign = "center";
+
+        ctx.fillText(
+            selectedSticker,
+            canvas.width / 2,
+            canvas.height / 2
+        );
+    }
+}
+
+$("openCameraButton")?.addEventListener(
+    "click",
+    openCamera
+);
+
+$("switchCameraButton")?.addEventListener(
+    "click",
+    switchCamera
+);
+
+$("takePhotoButton")?.addEventListener(
+    "click",
+    takePhoto
+);
+
+$("uploadPhotoButton")?.addEventListener(
+    "click",
+    uploadPhoto
+);
+
+$("photoFilter")?.addEventListener(
+    "change",
+    () => {
+
+        if (currentImage) {
+
+            const image =
+                new Image();
+
+            image.onload = () => {
+
+                const canvas =
+                    $("photoCanvas");
+
+                canvas.width =
+                    image.width;
+
+                canvas.height =
+                    image.height;
+
+                canvas
+                    .getContext("2d")
+                    .drawImage(
+                        image,
+                        0,
+                        0
+                    );
+
+                applyPhotoFilter();
+
+            };
+
+            image.src =
+                currentImage;
+        }
+    }
+);
+
+$("photoCaption")?.addEventListener(
+    "input",
+    drawPhotoExtras
+);
+
+$all(".sticker-button").forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedSticker =
+                    button.dataset.sticker;
+
+                showToast(
+                    "😀 Наклейка выбрана!"
+                );
+
+                drawPhotoExtras();
+            }
+        );
+    }
+);
+
+$("photoCanvas")?.addEventListener(
+    "click",
+    event => {
+
+        if (!selectedSticker) {
+            return;
+        }
+
+        const canvas =
+            $("photoCanvas");
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        const x =
+            (event.clientX - rect.left) *
+            canvas.width /
+            rect.width;
+
+        const y =
+            (event.clientY - rect.top) *
+            canvas.height /
+            rect.height;
+
+        const ctx =
+            canvas.getContext("2d");
+
+        ctx.font =
+            `${Math.max(40,canvas.width / 10)}px Arial`;
+
+        ctx.textAlign = "center";
+
+        ctx.fillText(
+            selectedSticker,
+            x,
+            y
+        );
+    }
+);
+
+$("downloadPhotoButton")?.addEventListener(
+    "click",
+    () => {
+
+        const canvas =
+            $("photoCanvas");
+
+        if (!canvas.width) {
+
+            showToast(
+                "Сначала сделай или загрузи фото."
+            );
+
+            return;
+        }
+
+        const link =
+            document.createElement("a");
+
+        link.download =
+            "markgg-photo.png";
+
+        link.href =
+            canvas.toDataURL("image/png");
+
+        link.click();
+
+    }
+);
+
+/* =========================================================
+   СКАЗКИ
+   ========================================================= */
+
+const STORIES = [
+
+    {
+        id: 1,
+        title: "Котёнок и звезда",
+        emoji: "🐱⭐",
+        moral: "Даже маленькая мечта может стать большой.",
+        scenes: [
+            ["🌌 🐱", "Котёнок увидел яркую звезду."],
+            ["🐱 ⭐", "Он решил загадать желание."],
+            ["🐱 🚀 ⭐", "Но понял: мечту нужно ещё и делать самому!"],
+            ["🌅 🐱 ❤️", "И начал каждый день стараться."]
+        ]
+    },
+
+    {
+        id: 2,
+        title: "Робот-друг",
+        emoji: "🤖❤️",
+        moral: "Настоящая дружба строится на помощи.",
+        scenes: [
+            ["🏠 🤖", "Маленький робот жил один."],
+            ["🤖 🧑", "Однажды он встретил нового друга."],
+            ["🤖 🧑 🤝", "Они помогали друг другу."],
+            ["🌈 🤖 🧑", "И стали настоящей командой."]
+        ]
+    },
+
+    {
+        id: 3,
+        title: "Ракета на Марс",
+        emoji: "🚀🌌",
+        moral: "Не бойся пробовать новое.",
+        scenes: [
+            ["🚀 🧑", "Герой построил ракету."],
+            ["🔥 🚀", "Двигатели запустились!"],
+            ["🌌 🚀 ⭐", "Ракета отправилась в космос."],
+            ["🔴 🚀 🧑", "И герой увидел Марс."]
+        ]
+    },
+
+    {
+        id: 4,
+        title: "Сундук загадок",
+        emoji: "🎁🔐",
+        moral: "Любопытство помогает узнавать новое.",
+        scenes: [
+            ["🏝️ 🧑 🎁", "На острове нашли сундук."],
+            ["🔐 🧑 🤔", "Но сундук был закрыт."],
+            ["💡 🧑 🔑", "Герой решил подумать."],
+            ["🎁 💎 🎉", "Загадка была решена!"]
+        ]
+    },
+
+    {
+        id: 5,
+        title: "Неоновый город",
+        emoji: "🌃🚀",
+        moral: "Добрые поступки делают город лучше.",
+        scenes: [
+            ["🌃 🧑", "Город погрузился во тьму."],
+            ["💡 🧑", "Герой нашёл генератор."],
+            ["⚡ 💡 🌃", "Свет вернулся."],
+            ["🎉 🌃 ❤️", "Все жители обрадовались."]
+        ]
+    },
+
+    {
+        id: 6,
+        title: "Большая перемена",
+        emoji: "🏫🎉",
+        moral: "Ошибки — это часть обучения.",
+        scenes: [
+            ["🏫 🧑", "Сегодня был важный день."],
+            ["📚 🧑 😵", "Сначала всё получилось не идеально."],
+            ["🧠 🧑 💡", "Но герой попробовал ещё раз."],
+            ["🏆 🧑 🎉", "И в итоге справился."]
+        ]
+    }
+];
+
+let storyFontSize = 1;
+
+let currentStory = null;
+let currentScene = 0;
+let storyAutoTimer = null;
+
+function renderStories() {
+
+    const grid =
+        $("storyGrid");
+
+    if (!grid) {
+        return;
+    }
+
+    const search =
+        ($("storySearch")?.value || "")
+        .toLowerCase();
+
+    const filtered =
+        STORIES.filter(
+            story =>
+                story.title
+                    .toLowerCase()
+                    .includes(search)
+        );
+
+    grid.innerHTML =
+        filtered.map(story => `
+
+        <article
+            class="story-card"
+            data-story="${story.id}">
+
+            <div class="story-cover">
+                ${story.emoji}
+            </div>
+
+            <h3>
+                ${escapeHTML(story.title)}
+            </h3>
+
+            <p>
+                ${escapeHTML(story.moral)}
+            </p>
+
+            <button
+                class="primary-button">
+                ▶️ Читать
+            </button>
+
+        </article>
+
+        `).join("");
+
+    $all("[data-story]").forEach(
+        card => {
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    openStory(
+                        Number(
+                            card.dataset.story
+                        )
+                    );
+
+                }
+            );
+
+        }
+    );
+}
+
+function openStory(id) {
+
+    currentStory =
+        STORIES.find(
+            story => story.id === id
+        );
+
+    if (!currentStory) {
+        return;
+    }
+
+    currentScene = 0;
+
+    $("storyPlayer")
+        ?.classList.remove("hidden");
+
+    renderStoryScene();
+
+    $("storyPlayer")
+        ?.scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+function renderStoryScene() {
+
+    if (!currentStory) {
+        return;
+    }
+
+    const scene =
+        currentStory.scenes[currentScene];
+
+    $("storyScene").textContent =
+        scene[0];
+
+    $("storySpeech").textContent =
+        scene[1];
+
+    $("storyScene").style.fontSize =
+        `${80 * storyFontSize}px`;
+
+    $("storyProgressBar").style.width =
+        (
+            ((currentScene + 1) /
+            currentStory.scenes.length) *
+            100
+        ) + "%";
+
+    $("storyDots").innerHTML =
+        currentStory.scenes.map(
+            (_,index) =>
+                `<div class="story-dot ${
+                    index === currentScene
+                    ? "active"
+                    : ""
+                }"></div>`
+        ).join("");
+
+    $("storyScene")
+        .classList.toggle(
+            "walking",
+            currentScene % 2 === 0
+        );
+}
+
+function nextStoryScene() {
+
+    if (!currentStory) {
+        return;
+    }
+
+    currentScene++;
+
+    if (
+        currentScene >=
+        currentStory.scenes.length
+    ) {
+
+        currentScene = 0;
+
+        showToast(
+            "🎉 Сказка закончилась! Начинаем снова."
+        );
+    }
+
+    renderStoryScene();
+}
+
+function previousStoryScene() {
+
+    if (!currentStory) {
+        return;
+    }
+
+    currentScene--;
+
+    if (currentScene < 0) {
+
+        currentScene =
+            currentStory.scenes.length - 1;
+    }
+
+    renderStoryScene();
+}
+
+function toggleStoryAuto() {
+
+    if (storyAutoTimer) {
+
+        clearInterval(
+            storyAutoTimer
+        );
+
+        storyAutoTimer = null;
+
+        $("storyAutoButton").textContent =
+            "▶️ Авто";
+
+    } else {
+
+        storyAutoTimer =
+            setInterval(
+                nextStoryScene,
+                4000
+            );
+
+        $("storyAutoButton").textContent =
+            "⏸️ Авто";
+    }
+}
+
+$("storyNextButton")?.addEventListener(
+    "click",
+    nextStoryScene
+);
+
+$("storyPrevButton")?.addEventListener(
+    "click",
+    previousStoryScene
+);
+
+$("storyAutoButton")?.addEventListener(
+    "click",
+    toggleStoryAuto
+);
+
+$("storyRandomButton")?.addEventListener(
+    "click",
+    () => {
+
+        const random =
+            STORIES[
+                Math.floor(
+                    Math.random() *
+                    STORIES.length
+                )
+            ];
+
+        openStory(random.id);
+    }
+);
+
+$("storyFullscreenButton")?.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            if (!document.fullscreenElement) {
+
+                await $("storyPlayer")
+                    .requestFullscreen();
+
+            } else {
+
+                await document.exitFullscreen();
+            }
+
+        } catch (error) {
+
+            showToast(
+                "Полноэкранный режим недоступен."
+            );
+        }
+    }
+);
+
+$("storySearch")?.addEventListener(
+    "input",
+    renderStories
+);
+
+$("storyFontPlus")?.addEventListener(
+    "click",
+    () => {
+
+        storyFontSize =
+            Math.min(
+                1.5,
+                storyFontSize + .1
+            );
+
+        renderStoryScene();
+    }
+);
+
+$("storyFontMinus")?.addEventListener(
+    "click",
+    () => {
+
+        storyFontSize =
+            Math.max(
+                .7,
+                storyFontSize - .1
+            );
+
+        renderStoryScene();
+    }
+);
+
+/* =========================================================
+   ВИКТОРИНА
+   ========================================================= */
+
+const QUIZ = [
+
+    {
+        question:
+            "Что понял котёнок из первой сказки?",
+
+        answers: [
+            "Мечту нужно делать самому",
+            "Нужно спать весь день",
+            "Нужно забыть мечту"
+        ],
+
+        correct: 0
+    },
+
+    {
+        question:
+            "Что помогало роботам?",
+
+        answers: [
+            "Ссора",
+            "Дружба",
+            "Телепорт"
+        ],
+
+        correct: 1
+    },
+
+    {
+        question:
+            "Куда отправилась ракета?",
+
+        answers: [
+            "Марс",
+            "Магазин",
+            "Школа"
+        ],
+
+        correct: 0
+    }
+];
+
+let quizIndex = 0;
+let quizScore = 0;
+
+function renderQuiz() {
+
+    const quiz =
+        QUIZ[quizIndex];
+
+    if (!quiz) {
+        return;
+    }
+
+    $("quizQuestion").textContent =
+        quiz.question;
+
+    $("quizAnswers").innerHTML =
+        quiz.answers.map(
+            (answer,index) => `
+
+            <button
+                class="quiz-answer"
+                data-answer="${index}">
+                ${escapeHTML(answer)}
+            </button>
+
+            `
+        ).join("");
+
+    $("quizResult").textContent =
+        `Вопрос ${quizIndex + 1} из ${QUIZ.length}`;
+
+    $all("[data-answer]").forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const answer =
+                        Number(
+                            button.dataset.answer
+                        );
+
+                    if (
+                        answer ===
+                        quiz.correct
+                    ) {
+
+                        quizScore++;
+
+                        showToast(
+                            "✅ Правильно!"
+                        );
+
+                    } else {
+
+                        showToast(
+                            "❌ Попробуй ещё!"
+                        );
+                    }
+
+                    quizIndex++;
+
+                    if (
+                        quizIndex >=
+                        QUIZ.length
+                    ) {
+
+                        $("quizQuestion")
+                            .textContent =
+                            "🎉 Викторина закончена!";
+
+                        $("quizAnswers")
+                            .innerHTML = "";
+
+                        $("quizResult")
+                            .textContent =
+                            `Результат: ${quizScore}/${QUIZ.length}`;
+
+                        quizIndex = 0;
+                        quizScore = 0;
+
+                    } else {
+
+                        renderQuiz();
+                    }
+
+                }
+            );
+
+        }
+    );
+}
+
+/* =========================================================
+   VK VIDEO 1000
+   ========================================================= */
+
+let vkData = loadJSON(
+    STORAGE.vk,
+    {
+        reactions: {
+            "❤️": 0,
+            "🔥": 0,
+            "🎉": 0,
+            "🚀": 0
+        },
+        celebrations: 0
+    }
+);
+
+function updateVkVideo() {
+
+    $("vkVideoViews").textContent =
+        VK_VIDEO_VIEWS;
+
+    const progress =
+        Math.min(
+            100,
+            VK_VIDEO_VIEWS /
+            VK_VIDEO_NEXT_GOAL *
+            100
+        );
+
+    $("vkGoalProgress").style.width =
+        progress + "%";
+
+    $("vkGoalText").textContent =
+        `${VK_VIDEO_VIEWS} / ${VK_VIDEO_NEXT_GOAL}`;
+
+    $all("[data-vk-reaction]").forEach(
+        button => {
+
+            const reaction =
+                button.dataset.vkReaction;
+
+            const span =
+                button.querySelector("span");
+
+            if (span) {
+
+                span.textContent =
+                    vkData.reactions[reaction] || 0;
+            }
+        }
+    );
+}
+
+function celebrateVkVideo() {
+
+    vkData.celebrations++;
+
+    saveJSON(
+        STORAGE.vk,
+        vkData
+    );
+
+    sectionViews.congrats++;
+
+    saveJSON(
+        STORAGE.stats,
+        sectionViews
+    );
+
+    launchConfetti(180);
+
+    showToast(
+        "🎉 ПОЗДРАВЛЯЕМ! 1000 ПРОСМОТРОВ VK ВИДЕО!"
+    );
+
+    playBeep(800,.15);
+
+    setTimeout(
+        () => playBeep(1100,.15),
+        150
+    );
+}
+
+$("vkCelebrateButton")?.addEventListener(
+    "click",
+    celebrateVkVideo
+);
+
+$("vkConfettiButton")?.addEventListener(
+    "click",
+    () => launchConfetti(100)
+);
+
+$all("[data-vk-reaction]").forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const reaction =
+                    button.dataset.vkReaction;
+
+                if (
+                    !vkData.reactions[reaction]
+                ) {
+
+                    vkData.reactions[reaction] =
+                        0;
+                }
+
+                vkData.reactions[reaction]++;
+
+                saveJSON(
+                    STORAGE.vk,
+                    vkData
+                );
+
+                updateVkVideo();
+
+                showToast(
+                    `${reaction} Спасибо!`
+                );
+            }
+        );
+
+    }
+);
+
+/* =========================================================
+   ОПРОС
+   ========================================================= */
+
+const POLL_OPTIONS = [
+    "🎮 Сделать больше игр",
+    "📚 Добавить ещё сказки",
+    "🛍️ Добавить магазин",
+    "🚀 Сделать всё сразу"
+];
+
+let pollData = loadJSON(
+    STORAGE.poll,
+    {
+        voted: false,
+        votes: [0,0,0,0]
+    }
+);
+
+function renderPoll() {
+
+    const options =
+        $("pollOptions");
+
+    if (!options) {
+        return;
+    }
+
+    options.innerHTML =
+        POLL_OPTIONS.map(
+            (option,index) => `
+
+            <button
+                class="poll-option"
+                data-poll="${index}">
+
+                ${option}
+
+            </button>
+
+            `
+        ).join("");
+
+    $all("[data-poll]").forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    if (pollData.voted) {
+
+                        showToast(
+                            "🗳️ Ты уже голосовал!"
+                        );
+
+                        renderPollResults();
+
+                        return;
+                    }
+
+                    const index =
+                        Number(
+                            button.dataset.poll
+                        );
+
+                    pollData.votes[index]++;
+
+                    pollData.voted = true;
+
+                    saveJSON(
+                        STORAGE.poll,
+                        pollData
+                    );
+
+                    renderPollResults();
+
+                    showToast(
+                        "✅ Голос принят!"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+    renderPollResults();
+}
+
+function renderPollResults() {
+
+    const container =
+        $("pollResults");
+
+    if (!container) {
+        return;
+    }
+
+    const total =
+        pollData.votes.reduce(
+            (a,b) => a+b,
+            0
+        );
+
+    container.innerHTML =
+        POLL_OPTIONS.map(
+            (option,index) => {
+
+                const percent =
+                    total
+                        ? Math.round(
+                            pollData.votes[index] /
+                            total *
+                            100
+                        )
+                        : 0;
+
+                return `
+
+                <div class="poll-result">
+
+                    ${option} — ${percent}%
+
+                    <div class="admin-bar">
+                        <div
+                            style="width:${percent}%">
+                        </div>
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        ).join("");
+}
+
+/* =========================================================
+   ОТКРЫТКА
+   ========================================================= */
+
+function drawPostcard() {
+
+    const canvas =
+        $("postcardCanvas");
+
+    if (!canvas) {
+        return;
+    }
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const width =
+        canvas.width;
+
+    const height =
+        canvas.height;
+
+    const gradient =
+        ctx.createLinearGradient(
+            0,
+            0,
+            width,
+            height
+        );
+
+    gradient.addColorStop(
+        0,
+        "#24135c"
+    );
+
+    gradient.addColorStop(
+        .5,
+        "#a82d9c"
+    );
+
+    gradient.addColorStop(
+        1,
+        "#17bdd0"
+    );
+
+    ctx.fillStyle =
+        gradient;
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    /* ЛУЧИ */
+
+    ctx.globalAlpha = .15;
+
+    for (
+        let i = 0;
+        i < 20;
+        i++
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            width/2,
+            height/2
+        );
+
+        ctx.lineTo(
+            Math.random()*width,
+            Math.random()*height
+        );
+
+        ctx.strokeStyle =
+            "white";
+
+        ctx.lineWidth =
+            20;
+
+        ctx.stroke();
+    }
+
+    ctx.globalAlpha = 1;
+
+    /* КОНФЕТТИ */
+
+    const emojis = [
+        "🎉",
+        "⭐",
+        "💜",
+        "✨",
+        "🚀"
+    ];
+
+    ctx.font = "35px Arial";
+
+    for (
+        let i = 0;
+        i < 35;
+        i++
+    ) {
+
+        ctx.fillText(
+            emojis[
+                Math.floor(
+                    Math.random() *
+                    emojis.length
+                )
+            ],
+            Math.random()*width,
+            Math.random()*height
+        );
+    }
+
+    const number =
+        $("postcardNumber")?.value ||
+        "1000";
+
+    const text =
+        $("postcardText")?.value ||
+        "";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.font =
+        "bold 150px Arial";
+
+    ctx.fillStyle =
+        "white";
+
+    ctx.fillText(
+        number,
+        width/2,
+        250
+    );
+
+    ctx.font =
+        "bold 38px Arial";
+
+    const lines =
+        text.split("\n");
+
+    lines.forEach(
+        (line,index) => {
+
+            ctx.fillText(
+                line,
+                width/2,
+                340 + index*55
+            );
+
+        }
+    );
+
+    ctx.font =
+        "bold 25px Arial";
+
+    ctx.fillText(
+        "markgg 💜",
+        width/2,
+        620
+    );
+}
+
+$("redrawPostcardButton")?.addEventListener(
+    "click",
+    drawPostcard
+);
+
+$("postcardText")?.addEventListener(
+    "input",
+    drawPostcard
+);
+
+$("postcardNumber")?.addEventListener(
+    "input",
+    drawPostcard
+);
+
+$("downloadPostcardButton")?.addEventListener(
+    "click",
+    () => {
+
+        const canvas =
+            $("postcardCanvas");
+
+        const link =
+            document.createElement("a");
+
+        link.download =
+            "markgg-1000-views.png";
+
+        link.href =
+            canvas.toDataURL("image/png");
+
+        link.click();
+
+        showToast(
+            "💌 Открытка сохранена!"
+        );
+    }
+);
+
+/* =========================================================
+   АДМИН
+   ========================================================= */
+
+let adminLoggedIn = false;
+
+function adminLogin() {
+
+    const pin =
+        $("adminPinInput")?.value;
+
+    if (pin === ADMIN_PIN) {
+
+        adminLoggedIn = true;
+
+        $("adminLocked")
+            ?.classList.add("hidden");
+
+        $("adminPanel")
+            ?.classList.remove("hidden");
+
+        updateAdmin();
+
+        showToast(
+            "🔓 Добро пожаловать!"
+        );
+
+    } else {
+
+        showToast(
+            "❌ Неправильный PIN."
+        );
+    }
+}
+
+function updateAdmin() {
+
+    if (!adminLoggedIn) {
+        return;
+    }
+
+    const totalViews =
+        Object.values(
+            sectionViews.views
+        ).reduce(
+            (sum,value) =>
+                sum + value,
+            0
+        );
+
+    $("adminTotalViews").textContent =
+        totalViews;
+
+    $("adminCongrats").textContent =
+        sectionViews.congrats || 0;
+
+    const totalVotes =
+        pollData.votes.reduce(
+            (a,b) => a+b,
+            0
+        );
+
+    $("adminVotes").textContent =
+        totalVotes;
+
+    $("adminRecord").textContent =
+        game.best;
+
+    renderAdminSections();
+    renderAdminPoll();
+}
+
+function renderAdminSections() {
+
+    const container =
+        $("adminSectionStats");
+
+    if (!container) {
+        return;
+    }
+
+    const entries =
+        Object.entries(
+            sectionViews.views
+        );
+
+    const total =
+        entries.reduce(
+            (sum,[,value]) =>
+                sum + value,
+            0
+        ) || 1;
+
+    container.innerHTML =
+        entries.map(
+            ([id,value]) => {
+
+                const percent =
+                    Math.round(
+                        value /
+                        total *
+                        100
+                    );
+
+                return `
+
+                <div class="admin-bar-row">
+
+                    <strong>
+                        ${
+                            sectionNames[id] ||
+                            id
+                        }
+                    </strong>
+
+                    — ${value}
+
+                    <div class="admin-bar">
+
+                        <div
+                            style="width:${percent}%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        ).join("");
+}
+
+function renderAdminPoll() {
+
+    const container =
+        $("adminPollResults");
+
+    if (!container) {
+        return;
+    }
+
+    const total =
+        pollData.votes.reduce(
+            (a,b) => a+b,
+            0
+        ) || 1;
+
+    container.innerHTML =
+        POLL_OPTIONS.map(
+            (option,index) => {
+
+                const percent =
+                    Math.round(
+                        pollData.votes[index] /
+                        total *
+                        100
+                    );
+
+                return `
+
+                <div class="admin-bar-row">
+
+                    ${option}
+
+                    — ${pollData.votes[index]}
+
+                    <div class="admin-bar">
+
+                        <div
+                            style="width:${percent}%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        ).join("");
+}
+
+function createReport() {
+
+    const totalViews =
+        Object.values(
+            sectionViews.views
+        ).reduce(
+            (a,b) => a+b,
+            0
+        );
+
+    return `
+
+🎉 ОТЧЁТ MARKGG
+
+👁️ Просмотры разделов:
+${totalViews}
+
+▶️ VK Видео:
+${VK_VIDEO_VIEWS} просмотров
+
+🎊 Поздравлений:
+${sectionViews.congrats || 0}
+
+🗳️ Голосов:
+${pollData.votes.reduce((a,b)=>a+b,0)}
+
+🏆 Рекорд игры:
+${game.best}
+
+💜 markgg
+
+    `.trim();
+}
+
+$("adminLoginButton")?.addEventListener(
+    "click",
+    adminLogin
+);
+
+$("adminRefreshButton")?.addEventListener(
+    "click",
+    updateAdmin
+);
+
+$("adminLogoutButton")?.addEventListener(
+    "click",
+    () => {
+
+        adminLoggedIn = false;
+
+        $("adminPanel")
+            ?.classList.add("hidden");
+
+        $("adminLocked")
+            ?.classList.remove("hidden");
+
+        $("adminPinInput").value = "";
+
+    }
+);
+
+$("adminCopyReportButton")?.addEventListener(
+    "click",
+    async () => {
+
+        const report =
+            createReport();
+
+        try {
+
+            await navigator.clipboard
+                .writeText(report);
+
+            showToast(
+                "📋 Отчёт скопирован!"
+            );
+
+        } catch (error) {
+
+            showToast(
+                "Не удалось скопировать отчёт."
+            );
+        }
+    }
+);
+
+$("adminResetButton")?.addEventListener(
+    "click",
+    () => {
+
+        const confirmed =
+            confirm(
+                "Точно сбросить статистику сайта?"
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+        sectionViews = {
+            views: {},
+            congrats: 0
+        };
+
+        pollData = {
+            voted: false,
+            votes: [0,0,0,0]
+        };
+
+        vkData = {
+            reactions: {
+                "❤️": 0,
+                "🔥": 0,
+                "🎉": 0,
+                "🚀": 0
+            },
+            celebrations: 0
+        };
+
+        saveJSON(
+            STORAGE.stats,
+            sectionViews
+        );
+
+        saveJSON(
+            STORAGE.poll,
+            pollData
+        );
+
+        saveJSON(
+            STORAGE.vk,
+            vkData
+        );
+
+        updateVkVideo();
+        renderPoll();
+        updateAdmin();
+
+        showToast(
+            "🗑️ Статистика сброшена."
+        );
+
+    }
+);
+
+/* =========================================================
+   НАВЕРХ
+   ========================================================= */
+
+$("backToTop")?.addEventListener(
+    "click",
+    () => {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+);
+
+/* =========================================================
+   ЗАПУСК
+   ========================================================= */
+
+function initMarkgg() {
+
+    updateTheme();
+
+    renderShop();
+
+    resetGame();
+
+    resizeGameCanvas();
+
+    renderStories();
+
+    renderQuiz();
+
+    updateVkVideo();
+
+    renderPoll();
+
+    drawPostcard();
+
+    updateShopCounters();
+
+    startSplash();
+
+    launchConfetti(35);
+}
+
+/* =========================================================
+   ЗАПУСКАЕМ ПОСЛЕ ЗАГРУЗКИ
+   ========================================================= */
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initMarkgg
+    );
+
+} else {
+
+    initMarkgg();
+
+}
+
+/* =========================================================
+   КОНЕЦ
+   ========================================================= */
+
+/*
+    ЧТО УЖЕ ЕСТЬ:
+
+    ✅ Один index.html
+    ✅ Магазин
+    ✅ Поиск товаров
+    ✅ Сортировка
+    ✅ Избранное
+    ✅ Корзина
+    ✅ Игра
+    ✅ Прыжок
+    ✅ Двойной прыжок
+    ✅ Монеты
+    ✅ Рекорд
+    ✅ 4 персонажа
+    ✅ Звуки
+    ✅ Фото
+    ✅ Камера
+    ✅ Загрузка фотографии
+    ✅ Фильтры
+    ✅ Текст
+    ✅ Стикеры
+    ✅ Скачивание PNG
+    ✅ 6 сказок
+    ✅ Поиск сказок
+    ✅ Автоматический режим
+    ✅ Полноэкранный режим
+    ✅ Викторина
+    ✅ 1000 просмотров VK Видео
+    ✅ Праздничное конфетти
+    ✅ Реакции
+    ✅ Цель 2000
+    ✅ Опрос
+    ✅ Открытка
+    ✅ Скачивание открытки
+    ✅ Админка
+    ✅ PIN
+    ✅ Статистика
+    ✅ Отчёт
+    ✅ Сброс статистики
+    ✅ Светлая/тёмная тема
+    ✅ localStorage
+    ✅ Мобильная версия
+    ✅ Всё в одном файле
+
+    ВАЖНО:
+
+    PIN 2468 — это НЕ настоящая серверная защита.
+    Поскольку сайт работает только в браузере,
+    пароль находится внутри исходного кода.
+
+    Для настоящей админки, настоящих аккаунтов,
+    Google-входа, настоящих заказов и настоящего
+    количества просмотров нужен сервер/backend.
+*/
+</script>
+
+</body>
+</html>
+```
