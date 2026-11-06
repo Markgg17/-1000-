@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="MARKGG NEXUS — интерактивная лаборатория: неоновая игра, пиксель-арт, видеостудия и 3D-модели для печати.">
-<meta name="theme-color" content="#080b19"><title>MARKGG NEXUS — Игры, творчество и технологии</title>
+<meta name="theme-color" content="#080b19"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="manifest" href="./manifest.webmanifest"><meta property="og:type" content="website"><meta property="og:title" content="MARKGG NEXUS — 6 интерактивных приложений"><meta property="og:description" content="Играй, рисуй, создавай сайты, планируй видео и моделируй в 3D"><title>MARKGG NEXUS — Игры, творчество и технологии</title>
 <style>
+[hidden]{display:none!important}
 :root{--bg:#080b19;--surface:#121a31;--surface2:#19223d;--text:#f2f6ff;--sub:#a7b4ce;--stroke:#ffffff20;--cyan:#6ceaff;--violet:#9d86ff;--shadow:#0008;scroll-behavior:smooth}
 :root[data-theme="light"]{--bg:#eef3ff;--surface:#ffffff;--surface2:#e6edff;--text:#12203a;--sub:#536783;--stroke:#18345124;--shadow:#40517826}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 Inter,Segoe UI,system-ui,sans-serif;overflow-x:hidden;transition:background .25s,color .25s}a{text-decoration:none;color:inherit}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
@@ -38,9 +39,9 @@ h1{font-size:clamp(47px,6.9vw,88px);line-height:1.02;letter-spacing:-.065em;marg
 <section class="hero" id="home"><div>
 <div class="eyebrow"><span class="dot"></span> Открытая творческая лаборатория</div>
 <h1>PLAY.<br>CREATE.<br><span class="gradient">IMAGINE.</span></h1>
-<p class="lead">Одна вселенная — четыре настоящих веб-приложения. Играй, рисуй пиксель-арт, планируй видео и создавай 3D-модели. Всё прямо в браузере.</p>
+<p class="lead">Одна вселенная — шесть настоящих веб-приложений. Играй, рисуй пиксель-арт, планируй видео и создавай 3D-модели. Всё прямо в браузере — даже без регистрации.</p>
 <div class="heroactions"><a href="#projects" class="btn btn-primary">🚀 Открыть проекты</a><a href="https://github.com/Markgg17/-1000-" class="btn btn-secondary" target="_blank" rel="noopener">⌘ Посмотреть код</a></div>
-<div class="herofoot"><div><strong>04</strong><span>Работающих приложения</span></div><div><strong>100%</strong><span>Без регистрации</span></div><div><strong>0 ₽</strong><span>Бесплатный доступ</span></div></div>
+<div class="herofoot"><div><strong>06</strong><span>Работающих приложений</span></div><div><strong>100%</strong><span>Без регистрации</span></div><div><strong>0 ₽</strong><span>Бесплатный доступ</span></div></div>
 </div>
 <div class="scene" aria-hidden="true"><div class="halo"></div><div class="halo b"></div><div class="core"><span>✦</span></div>
 <div class="floatcard fc1"><b>⚡ NEON ARCADE</b><small>Игра запускается в браузере</small></div>
@@ -53,12 +54,15 @@ h1{font-size:clamp(47px,6.9vw,88px);line-height:1.02;letter-spacing:-.065em;marg
 <a class="app" data-app data-kind="creative" href="./apps/pixel-studio/index.html"><div class="apphead pink"><span class="chip">ART TOOL</span><span class="heroicon">🎨</span></div><div class="appbody"><span class="apptype">02 · Графика</span><h3>Pixel Studio</h3><p>Рисуй по пикселям, заливай области цветом, отменяй действия и сохраняй готовые спрайты в PNG.</p><div class="appbottom"><span>Палитра · история · PNG</span><span>Рисовать ↗</span></div></div></a>
 <a class="app" data-app data-kind="productivity" href="./apps/creator-studio/index.html"><div class="apphead teal"><span class="chip">CREATOR TOOLS</span><span class="heroicon">🎬</span></div><div class="appbody"><span class="apptype">03 · Планирование</span><h3>Creator Studio</h3><p>Собери идеи видео, веди проекты по этапам, отмечай даты, фильтруй список и делай резервные копии JSON.</p><div class="appbottom"><span>Списки · поиск · экспорт</span><span>Открыть ↗</span></div></div></a>
 <a class="app" data-app data-kind="creative" href="./apps/3d-lab/index.html"><div class="apphead amber"><span class="chip">3D / STL</span><span class="heroicon">🧊</span></div><div class="appbody"><span class="apptype">04 · 3D-печать</span><h3>3D Print Lab</h3><p>Настрой размеры фигур в миллиметрах, покрути модель мышкой и скачай бинарный STL для своего слайсера.</p><div class="appbottom"><span>3D-просмотр · размеры · STL</span><span>Создать ↗</span></div></div></a>
+
+<a class="app" data-app data-kind="productivity" href="./apps/code-lab/index.html"><div class="apphead" style="background:radial-gradient(ellipse at 60% 20%,#74baff80,#162b56)"><span class="chip">CODE / WEB</span><span class="heroicon">💻</span></div><div class="appbody"><span class="apptype">05 · Разработка</span><h3>Mark Code Lab</h3><p>Настоящий HTML/CSS/JavaScript-редактор с живым предпросмотром, сохранением кода и экспортом своего сайта в HTML.</p><div class="appbottom"><span>Редактор · предпросмотр · HTML</span><span>Создавать ↗</span></div></div></a>
+<a class="app" data-app data-kind="creative" href="./apps/color-forge/index.html"><div class="apphead" style="background:radial-gradient(ellipse at 60% 30%,#ffc0d784,#6628a3)"><span class="chip">COLOR / DESIGN</span><span class="heroicon">🌈</span></div><div class="appbody"><span class="apptype">06 · Дизайн</span><h3>Color Forge</h3><p>Создавай градиенты, смешивай цвета, получай готовый CSS и скачивай красивые SVG-фоны для своих проектов.</p><div class="appbottom"><span>Градиенты · палитра · SVG</span><span>Подобрать цвета ↗</span></div></div></a>
 </div><div id="empty" class="empty" hidden>По этому запросу ничего не нашлось. Попробуй другое название.</div>
 </section>
 <section class="section" id="features"><div class="kicker">02 / Почему NEXUS</div><h2>Создавай без <span class="gradient">ограничений</span></h2><div class="benefits"><div class="benefit"><div class="emoji">🌐</div><h3>Работает в браузере</h3><p>Нужен только современный браузер. Устанавливать дополнительные программы не требуется.</p></div><div class="benefit"><div class="emoji">🔒</div><h3>Данные остаются у тебя</h3><p>Рекорды, спрайты и планы сохраняются локально. Мы не отправляем их на сервер.</p></div><div class="benefit"><div class="emoji">📱</div><h3>Адаптивный интерфейс</h3><p>Приложения подстраиваются под размер экрана; большинство действий доступно с телефона.</p></div></div></section>
 <section class="section" id="about"><div class="callout"><div><div class="kicker">03 / Добро пожаловать</div><h2>Это только <span class="gradient">начало</span></h2><p>MARKGG NEXUS — открытый набор творческих инструментов и игр. Новые версии и возможности будут появляться в GitHub.</p></div><a class="btn btn-primary" href="https://github.com/Markgg17/-1000-" target="_blank" rel="noopener">⭐ Смотреть репозиторий</a></div></section>
 </main>
-<footer><div class="inner wrap"><span>© <span id="year">2026</span> MARKGG NEXUS · Сделано с ⚡</span><span>HTML · CSS · JavaScript · GitHub Pages</span></div></footer>
+<footer><div class="inner wrap"><span>© <span id="year">2026</span> MARKGG NEXUS · Сделано с ⚡</span><span>HTML · CSS · JavaScript · PWA · GitHub Pages</span></div></footer>
 <script>
 (function(){
 'use strict';
@@ -72,5 +76,6 @@ for(const b of filters)b.addEventListener('click',()=>{active=b.dataset.filter;f
 search.addEventListener('input',apply);
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('projects').scrollIntoView();search.focus();search.select()}if(e.key==='Escape'&&document.activeElement===search){search.value='';apply();search.blur()}});
 document.getElementById('year').textContent=new Date().getFullYear();
+if("serviceWorker" in navigator && location.protocol==="https:")window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 })();
 </script></body></html>

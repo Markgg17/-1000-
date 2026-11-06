@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "MARKGG NEXUS — Creative Hub",
+  "short_name": "MARKGG NEXUS",
+  "description": "Шесть веб-приложений: Neon Arena, Pixel Studio, Creator Studio, 3D Print Lab, Code Lab и Color Forge.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b19",
+  "theme_color": "#080b19",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

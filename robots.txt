@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://markgg17.github.io/-1000-/sitemap.xml
