@@ -1,0 +1,15 @@
+{
+  "name": "MARKGUARD CORE",
+  "author": "MARKGG",
+  "platform": "Windows",
+  "architecture": "x86-64",
+  "format": "PE32+ GUI",
+  "binary_file": "MARKGUARD(4).exe",
+  "binary_present": false,
+  "size_bytes": 1163776,
+  "sha256": "f16e73d89fee1814ac64750b043e5ba4c1e63d14496061adef2038b8ff08cfe4",
+  "description": "Independent experimental scanner (embedded binary description)",
+  "verified_features": [],
+  "tested": false,
+  "notice": "The executable has not been uploaded to this repository. This metadata does not attest safety."
+}
