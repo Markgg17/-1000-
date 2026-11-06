@@ -1,0 +1,51 @@
+name: Build Six Desktop EXEs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "windows/desktop/**"
+      - "apps/**"
+      - ".github/workflows/build-desktop-apps.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build six independent Windows applications
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $apps = @("NeonArena", "PixelStudio", "CreatorStudio", "Print3DLab", "CodeLab", "ColorForge")
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          foreach ($app in $apps) {
+            dotnet publish "windows/desktop/$app/$app.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -o "out/$app"
+            if ($LASTEXITCODE -ne 0) { throw "Publish failed: $app" }
+            $exe = "out/$app/MARKGG.$app.exe"
+            if (!(Test-Path $exe)) { throw "Missing EXE: $exe" }
+            Copy-Item $exe "dist/MARKGG.$app.exe"
+          }
+      - name: Upload six EXEs
+        uses: actions/upload-artifact@v4
+        with:
+          name: MARKGG-Six-Windows-Apps
+          path: dist/*.exe
+          if-no-files-found: error
+      - name: Publish all six EXEs to GitHub Releases
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view desktop-latest *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create desktop-latest --title "MARKGG NEXUS — 6 Windows Apps" --notes "Six standalone Windows x64 EXE applications with their HTML/CSS/JS embedded. Requires Microsoft Edge WebView2 Runtime. No Python required." --target "${{ github.sha }}"
+          }
+          gh release upload desktop-latest dist/*.exe --clobber
