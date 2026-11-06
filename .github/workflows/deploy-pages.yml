@@ -47,6 +47,8 @@ jobs:
           test -s public/apps/code-lab/index.html
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:
