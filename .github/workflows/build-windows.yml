@@ -1,0 +1,39 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "windows/**"
+      - ".github/workflows/build-windows.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Publish standalone Windows EXE
+        shell: pwsh
+        run: |
+          dotnet publish windows/MarkggNexus.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -o dist
+          if (!(Test-Path dist/MARKGG.NEXUS.exe)) { throw "EXE not generated" }
+      - name: Upload executable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MARKGG-NEXUS-Windows-x64
+          path: dist/MARKGG.NEXUS.exe
+          if-no-files-found: error
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete windows-latest --yes --cleanup-tag 2>$null
+          gh release create windows-latest dist/MARKGG.NEXUS.exe --title "MARKGG NEXUS — Windows EXE" --notes "Standalone Windows x64 launcher. Opens the six MARKGG NEXUS web apps in the default browser. No Python or .NET installation required. Internet and published GitHub Pages are required to open the web apps." --target "${{ github.sha }}"
