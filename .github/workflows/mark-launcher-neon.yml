@@ -1,0 +1,32 @@
+name: Mark Launcher Neon - Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'apps/mark-launcher-neon/**'
+      - '.github/workflows/mark-launcher-neon.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build self-contained EXE
+    runs-on: windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+      - name: Install .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Publish Windows x64 EXE
+        shell: pwsh
+        run: dotnet publish apps/mark-launcher-neon/MarkLauncherNeon.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=false -o release
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MarkLauncherNeon-Windows-x64
+          path: release/MarkLauncherNeon.exe
+          if-no-files-found: error
