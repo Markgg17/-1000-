@@ -1,0 +1,56 @@
+name: Publish MARKGG NEXUS website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - '404.html'
+      - 'icon.svg'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - 'apps/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish static website
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Build deployment directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          cp index.html 404.html icon.svg manifest.webmanifest sw.js robots.txt sitemap.xml public/
+          cp -R apps public/apps
+          touch public/.nojekyll
+          test -s public/index.html
+          test -s public/apps/pixel-studio/index.html
+          test -s public/apps/code-lab/index.html
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@v4
