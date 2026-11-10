@@ -21,18 +21,17 @@
 - Пользовательская страница 404, favicon, sitemap, robots.txt
 - Все шесть приложений автономные: чистые HTML, CSS и JavaScript, без платных API или внешних библиотек
 
-## GitHub Pages — как включить публикацию
+## GitHub Pages — публикация через GitHub Actions
 
-Код уже находится в ветке `main` в корне репозитория `Markgg17/-1000-`. Но для открытия сайта необходимо включить GitHub Pages в настройках владельца.
+Сайт находится в ветке `main`, а автоматическая сборка и публикация описаны в [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
 
-1. Войди в GitHub в браузере под аккаунтом `Markgg17`.
-2. Открой [Settings → Pages](https://github.com/Markgg17/-1000-/settings/pages).
-3. В разделе **Build and deployment** выбери **Deploy from a branch**.
-4. Выбери **main** и **/(root)**, затем **Save**.
-5. Посмотри статус в [Actions](https://github.com/Markgg17/-1000-/actions).
-6. После завершения деплоя сайт будет на **https://markgg17.github.io/-1000-/**.
+**Включи GitHub Pages один раз** под аккаунтом с правом администрирования репозитория:
+1. Открой [Settings → Pages](https://github.com/Markgg17/-1000-/settings/pages).
+2. В разделе **Build and deployment → Source** выбери **GitHub Actions** (не `Deploy from a branch`).
+3. Открой [Actions → Publish MARKGG NEXUS website](https://github.com/Markgg17/-1000-/actions/workflows/deploy-pages.yml) и нажми **Run workflow → main → Run workflow**.
+4. Дождись зелёного статуса **Deploy site** и открой **https://markgg17.github.io/-1000-/**.
 
-Если сайт выдаёт 404, проверь, что Pages включён и что источником публикации выбран корень ветки `main`. Отсутствие `index.html` не является проблемой: файл присутствует.
+Если видишь `There isn't a GitHub Pages site here` или в логах `Get Pages site failed: Not Found`, сайт ещё не активирован в настройках Pages. Обычный `GITHUB_TOKEN` workflow не может самостоятельно создать сайт: для этого требуются дополнительные права управления репозиторием. Файлы `index.html` и всех шести приложений уже есть в репозитории.
 
 ## Важно
 
