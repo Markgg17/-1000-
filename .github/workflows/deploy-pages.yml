@@ -45,10 +45,9 @@ jobs:
           test -s public/index.html
           test -s public/apps/pixel-studio/index.html
           test -s public/apps/code-lab/index.html
+      # Enable Pages once in Settings > Pages > Source: GitHub Actions.
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:
